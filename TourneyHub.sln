@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Feature", "Feature", "{DD9AD7E5-E130-4A5C-BDE8-D85BD6832F8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Foundation", "Foundation", "{3CCCEB2A-D9E4-4613-BE98-2E79BB6C15A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project", "Project", "{2A376D2B-1E66-40E7-812F-A8E77ACA0C00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouneyHub.Project.Webiste", "src\project\TouneyHub.Project.Webiste\TouneyHub.Project.Webiste.csproj", "{380F98C4-0B58-4AF2-A4E8-0101CC14FE2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Header", "Header", "{C1CD2111-72B6-4AE9-8DC5-577B12205856}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyHub.Feature.Header", "src\Feature\Header\TourneyHub.Feature.Header\TourneyHub.Feature.Header.csproj", "{7C3B2F95-5D45-4A21-9743-A04E189F25C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Footer", "Footer", "{E935978D-25CE-4164-A69D-435E7F40A09F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyHub.Feature.Footer", "src\Feature\Footer\TourneyHub.Feature.Footer\TourneyHub.Feature.Footer.csproj", "{362C97B2-CADF-4268-BF14-0E45CF60CE5B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Registration", "Registration", "{5A88FE43-D5F5-467A-BD6D-A6DCF1BE15F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyHub.Feature.Registration", "src\Feature\Registration\TourneyHub.Feature.Registration\TourneyHub.Feature.Registration.csproj", "{DB7C36C6-AC70-453A-BEE8-2A346FA3B844}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Login", "Login", "{AE0730A3-CD56-404F-8F33-76E95258BD76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyHub.Feature.Login", "src\Feature\Login\TourneyHub.Feature.Login\TourneyHub.Feature.Login.csproj", "{FCA5F077-7BF7-4C78-8916-A8939E211C9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tournament", "Tournament", "{3B093907-542D-4C4B-8371-0C70BCA2DEDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourneyHub.Feature.Tournament", "src\Feature\Tournament\TourneyHub.Feature.Tournament\TourneyHub.Feature.Tournament.csproj", "{155E3020-FB57-4862-B48F-FBAC62DB1835}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{380F98C4-0B58-4AF2-A4E8-0101CC14FE2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{380F98C4-0B58-4AF2-A4E8-0101CC14FE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{380F98C4-0B58-4AF2-A4E8-0101CC14FE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{380F98C4-0B58-4AF2-A4E8-0101CC14FE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C3B2F95-5D45-4A21-9743-A04E189F25C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C3B2F95-5D45-4A21-9743-A04E189F25C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C3B2F95-5D45-4A21-9743-A04E189F25C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C3B2F95-5D45-4A21-9743-A04E189F25C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362C97B2-CADF-4268-BF14-0E45CF60CE5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362C97B2-CADF-4268-BF14-0E45CF60CE5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362C97B2-CADF-4268-BF14-0E45CF60CE5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362C97B2-CADF-4268-BF14-0E45CF60CE5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB7C36C6-AC70-453A-BEE8-2A346FA3B844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB7C36C6-AC70-453A-BEE8-2A346FA3B844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB7C36C6-AC70-453A-BEE8-2A346FA3B844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB7C36C6-AC70-453A-BEE8-2A346FA3B844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCA5F077-7BF7-4C78-8916-A8939E211C9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA5F077-7BF7-4C78-8916-A8939E211C9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA5F077-7BF7-4C78-8916-A8939E211C9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA5F077-7BF7-4C78-8916-A8939E211C9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{155E3020-FB57-4862-B48F-FBAC62DB1835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{155E3020-FB57-4862-B48F-FBAC62DB1835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{155E3020-FB57-4862-B48F-FBAC62DB1835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{155E3020-FB57-4862-B48F-FBAC62DB1835}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{380F98C4-0B58-4AF2-A4E8-0101CC14FE2E} = {2A376D2B-1E66-40E7-812F-A8E77ACA0C00}
+		{C1CD2111-72B6-4AE9-8DC5-577B12205856} = {DD9AD7E5-E130-4A5C-BDE8-D85BD6832F8B}
+		{7C3B2F95-5D45-4A21-9743-A04E189F25C1} = {C1CD2111-72B6-4AE9-8DC5-577B12205856}
+		{E935978D-25CE-4164-A69D-435E7F40A09F} = {DD9AD7E5-E130-4A5C-BDE8-D85BD6832F8B}
+		{362C97B2-CADF-4268-BF14-0E45CF60CE5B} = {E935978D-25CE-4164-A69D-435E7F40A09F}
+		{5A88FE43-D5F5-467A-BD6D-A6DCF1BE15F0} = {DD9AD7E5-E130-4A5C-BDE8-D85BD6832F8B}
+		{DB7C36C6-AC70-453A-BEE8-2A346FA3B844} = {5A88FE43-D5F5-467A-BD6D-A6DCF1BE15F0}
+		{AE0730A3-CD56-404F-8F33-76E95258BD76} = {DD9AD7E5-E130-4A5C-BDE8-D85BD6832F8B}
+		{FCA5F077-7BF7-4C78-8916-A8939E211C9E} = {AE0730A3-CD56-404F-8F33-76E95258BD76}
+		{3B093907-542D-4C4B-8371-0C70BCA2DEDE} = {DD9AD7E5-E130-4A5C-BDE8-D85BD6832F8B}
+		{155E3020-FB57-4862-B48F-FBAC62DB1835} = {3B093907-542D-4C4B-8371-0C70BCA2DEDE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCE17887-A5B3-4EB5-AD5F-0FF10FA0EFFA}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Caching.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45;packages\EnterpriseLibrary.TransientFaultHandling.ServiceBus.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.TransientFaultHandling.WindowsAzure.Storage.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.TransientFaultHandling.Configuration.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal

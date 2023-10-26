@@ -1,0 +1,33 @@
+﻿@model TourneyHub.Feature.Tournament.Models.TournamentOverview
+<body>
+    <div class="container">
+        <h1>My Tournaments</h1>
+        <div class="text-center mt-3">
+            <a href="/Home" class="btn btn-primary btn-lg">Create A New Tournament</a>
+        </div>
+        <div class="row">
+            @{
+                foreach (var data in Model.tournaments)
+                {
+                    if (data.CreatedByUser == Model.CurrentUserId)
+                    {
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <img src="tournament-image.jpg" class="card-img-top" alt="Tournament Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">@data.TournamentName</h5>
+                                    <p class="card-text">@data.SportName</p>
+                                    <a href="@data.LinkToSelf" class="btn btn-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>
