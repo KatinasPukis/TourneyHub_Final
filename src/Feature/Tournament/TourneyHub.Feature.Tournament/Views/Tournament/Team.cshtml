@@ -1,0 +1,51 @@
+﻿@model TourneyHub.Feature.Tournament.Models.TournamentTeam
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- User Profile Picture -->
+                <img src="@Model.LogoUrl" alt="team Picture" class="img-fluid rounded-circle">
+            </div>
+            <div class="col-md-8">
+                <!-- User Information -->
+                <h1>@Model.TeamName</h1>
+            </div>
+        </div>
+        <!-- User's Details -->
+        <div class="mt-4">
+            <h2>Team Info</h2>
+            <p>@Model.TeamDescription</p>
+        </div>
+        <!-- User's Details -->
+        <div class="container">
+            <h1>Team Participants</h1>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Age</th>
+                        <th>Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var participant in Model.TeamMembers)
+                    {
+                        <tr>
+                            <td><a href="@participant.LinkToSelf">@participant.Name</a></td>
+                            <td>@participant.Surname</td>
+                            <td>@participant.Age</td>
+                            <td>@participant.Info</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

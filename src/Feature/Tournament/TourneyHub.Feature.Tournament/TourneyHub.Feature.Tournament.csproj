@@ -139,6 +139,8 @@
     <Compile Include="Controllers\TournamentController.cs" />
     <Compile Include="Fields\TournamentFields.cs" />
     <Compile Include="Models\TournamentFormat.cs" />
+    <Compile Include="Models\TournamentMatch.cs" />
+    <Compile Include="Models\TournamentMatches.cs" />
     <Compile Include="Models\TournamentModel.cs" />
     <Compile Include="Models\TournamentFormData.cs" />
     <Compile Include="Models\TournamentOverview.cs" />
@@ -152,6 +154,10 @@
   <ItemGroup>
     <Content Include="Views\Tournament\Overview.cshtml" />
     <Content Include="Views\Tournament\Detailed.cshtml" />
+    <Content Include="Views\Tournament\Participants.cshtml" />
+    <Content Include="Views\Tournament\Participant.cshtml" />
+    <Content Include="Views\Tournament\Team.cshtml" />
+    <Content Include="Views\Tournament\Matches.cshtml" />
     <None Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

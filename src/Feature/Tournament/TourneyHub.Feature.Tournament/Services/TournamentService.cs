@@ -58,7 +58,9 @@ namespace TourneyHub.Feature.Tournament.Services
                     SportName = tournament.Fields[TournamentFields.Templates.TournamentInfo.Fields.SportNameFieldId].Value,
                     TournamentName = tournament.Fields[TournamentFields.Templates.TournamentInfo.Fields.TournamentNameFieldId].Value,
                     LinkToSelf = Sitecore.Links.LinkManager.GetItemUrl(tournament),
-                    CreatedByUser = tournament.Fields[TournamentFields.Templates.TournamentInfo.Fields.CreatedByUserFieldId].Value
+                    CreatedByUser = tournament.Fields[TournamentFields.Templates.TournamentInfo.Fields.CreatedByUserFieldId].Value,
+                    LinkToParticipants = GetLinkToParticipants(tournament),
+                    LinkToTournamentMatches = GetLinkToTournamentMatches(tournament)
                 })
                 .ToList();
 
@@ -457,6 +459,290 @@ namespace TourneyHub.Feature.Tournament.Services
             }
             return tournamentFormats;
         }
+        public TournamentModel GetTournament(Item tournamentItem)
+        {
+            if (tournamentItem == null || tournamentItem.TemplateID != TournamentFields.MainTemplateID)
+            {
+                return null;
+            }
 
+            string linkToParticipants = GetLinkToParticipants(tournamentItem);
+
+            string linkToTournamentMatches = GetLinkToTournamentMatches(tournamentItem);
+
+
+            return new TournamentModel
+            {
+                TournamentType = GetTournamentDroplinkValue(tournamentItem.Fields[TournamentFields.Templates.TournamentInfo.Fields.TournamentTypeFieldId].Value),
+                TournamentFormat = GetTournamentDroplinkValue(tournamentItem.Fields[TournamentFields.Templates.TournamentInfo.Fields.TournamentFormatFieldId].Value),
+                SportName = tournamentItem.Fields[TournamentFields.Templates.TournamentInfo.Fields.SportNameFieldId].Value,
+                TournamentName = tournamentItem.Fields[TournamentFields.Templates.TournamentInfo.Fields.TournamentNameFieldId].Value,
+                LinkToSelf = Sitecore.Links.LinkManager.GetItemUrl(tournamentItem),
+                CreatedByUser = tournamentItem.Fields[TournamentFields.Templates.TournamentInfo.Fields.CreatedByUserFieldId].Value,
+                LinkToParticipants = linkToParticipants,
+                LinkToTournamentMatches = linkToTournamentMatches,
+            };
+        }
+
+        private string GetLinkToTournamentMatches(Item tournamentItem)
+        {
+            Item tournamentMatchesItem = tournamentItem.Children.FirstOrDefault(item =>
+                            item.TemplateID.Equals(TournamentFields.Templates.TournamentMatches.ID));
+
+            string linkToTournamentMatches = tournamentMatchesItem != null
+                ? Sitecore.Links.LinkManager.GetItemUrl(tournamentMatchesItem)
+                : string.Empty;
+
+            return linkToTournamentMatches;
+        }
+        // 
+        private string GetLinkToParticipants(Item tournamentItem)
+        {
+
+            Item participantsItem = tournamentItem.Children.FirstOrDefault(item =>
+                item.TemplateID.Equals(TournamentFields.Templates.Participants.ID));
+
+            string linkToParticipants = participantsItem != null
+                ? Sitecore.Links.LinkManager.GetItemUrl(participantsItem)
+                : string.Empty;
+
+            return linkToParticipants;
+        }
+        // Helper
+        private string GetTournamentDroplinkValue(string fieldValue)
+        {
+            string droplinkValue = string.Empty;
+
+            if (!string.IsNullOrEmpty(fieldValue))
+            {
+                Item droplinkItem = _masterDb.GetItem(fieldValue);
+
+                if (droplinkItem.TemplateID == TournamentFields.TournamentData.TournamentType.ID)
+                {
+                    droplinkValue = droplinkItem.Fields[TournamentFields.TournamentData.TournamentType.TournamentTypeFieldID].Value;
+                }
+                if (droplinkItem.TemplateID == TournamentFields.TournamentData.TournamentFormat.ID)
+                {
+                    droplinkValue = droplinkItem.Fields[TournamentFields.TournamentData.TournamentFormat.TournamentFormatFieldID].Value;
+                }
+            }
+
+            return droplinkValue;
+        }
+        //Get participants
+        public TournamentParticipant GetParticipant(Item participantItem)
+        {
+            if (participantItem == null)
+            {
+                return null;
+            }
+
+            var fields = participantItem.Fields;
+            string imageURL = GetImageURLFromItem(participantItem, TournamentFields.Templates.Participant.Fields.ImageFieldId);
+            return new TournamentParticipant
+            {
+                Id = participantItem.ID.ToString(),
+                Name = fields[TournamentFields.Templates.Participant.Fields.NameFieldId]?.Value,
+                Surname = fields[TournamentFields.Templates.Participant.Fields.SurnameFieldId]?.Value,
+                Info = fields[TournamentFields.Templates.Participant.Fields.InformationFieldId]?.Value,
+                Age = Int32.TryParse(fields[TournamentFields.Templates.Participant.Fields.AgeFieldId]?.Value, out var age) ? age : 0,
+                Image = imageURL
+            };
+        }
+        //Helper
+        public string GetImageURLFromItem(Item item, ID imageFieldId)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+
+            ImageField imageField = (ImageField)item.Fields[imageFieldId];
+
+            if (imageField?.MediaItem != null)
+            {
+                return Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem);
+            }
+
+            return null;
+        }
+        public TournamentParticipants GetParticipants(Item participantsItem)
+        {
+            TournamentParticipants tournamentParticipants = new TournamentParticipants();
+
+            List<TournamentParticipant> participants = new List<TournamentParticipant>();
+
+            List<TournamentTeam> teams = new List<TournamentTeam>();
+
+
+            foreach (Item item in participantsItem.Children)
+            {
+                if (item.TemplateID == TournamentFields.Templates.Participant.ID)
+                {
+                    string imageURL = GetImageURLFromItem(item, TournamentFields.Templates.Participant.Fields.ImageFieldId);
+
+                    TournamentParticipant tournamentParticipant = new TournamentParticipant
+                    {
+                        Id = item.ID.ToString(),
+                        Name = item.Fields[TournamentFields.Templates.Participant.Fields.NameFieldId]?.Value,
+                        Surname = item.Fields[TournamentFields.Templates.Participant.Fields.SurnameFieldId]?.Value,
+                        Info = item.Fields[TournamentFields.Templates.Participant.Fields.InformationFieldId]?.Value,
+                        Age = Int32.TryParse(item.Fields[TournamentFields.Templates.Participant.Fields.AgeFieldId]?.Value, out var age) ? age : 0,
+                        Image = imageURL,
+                        LinkToSelf = GetLinkToParticipant(item)
+                    };
+                    participants.Add(tournamentParticipant);
+                }
+                else
+                {
+                    TournamentTeam tournamentTeam = new TournamentTeam
+                    {
+                        Id = item.ID.ToString(),
+                        TeamDescription = item.Fields[TournamentFields.Templates.TournamentTeam.Fields.TeamDescriptionFieldId]?.Value,
+                        TeamName = item.Fields[TournamentFields.Templates.TournamentTeam.Fields.TeamNameFieldId]?.Value,
+                        LogoUrl = GetImageURLFromItem(item, TournamentFields.Templates.TournamentTeam.Fields.TeamLogoFieldId),
+                        TeamMembers = GetTeamMembers(item),
+                        LinkToSelf = GetLinkToTeam(item),
+                    };
+                    teams.Add(tournamentTeam);
+                }
+            }
+
+            if (participants != null)
+            {
+                tournamentParticipants.Participants = participants;
+            }
+            if (teams != null)
+            {
+                tournamentParticipants.Teams = teams;
+            }
+
+            return tournamentParticipants;
+        }
+        private List<TournamentParticipant> GetTeamMembers(Item teamItem)
+        {
+            List<TournamentParticipant> members = new List<TournamentParticipant>();
+
+            foreach (Item participant in teamItem.Children)
+            {
+
+                TournamentParticipant tournamentParticipant = new TournamentParticipant
+                {
+                    Id = participant.ID.ToString(),
+                    Name = participant.Fields[TournamentFields.Templates.Participant.Fields.NameFieldId]?.Value,
+                    Surname = participant.Fields[TournamentFields.Templates.Participant.Fields.SurnameFieldId]?.Value,
+                    Info = participant.Fields[TournamentFields.Templates.Participant.Fields.InformationFieldId]?.Value,
+                    Age = Int32.TryParse(participant.Fields[TournamentFields.Templates.Participant.Fields.AgeFieldId]?.Value, out var age) ? age : 0,
+                    Image = GetImageURLFromItem(participant, TournamentFields.Templates.Participant.Fields.ImageFieldId),
+                    LinkToSelf = GetLinkToParticipant(participant)
+
+                };
+                members.Add(tournamentParticipant);
+            }
+            return members;
+        }
+
+
+
+        private string GetLinkToParticipant(Item participantItem)
+        {
+            string linkToParticipants = string.Empty;
+
+            if (participantItem != null && participantItem.TemplateID == TournamentFields.Templates.Participant.ID)
+            {
+                linkToParticipants = Sitecore.Links.LinkManager.GetItemUrl(participantItem);
+            }
+
+            return linkToParticipants;
+        }
+        private string GetLinkToTeam(Item teamItem)
+        {
+            string linkToParticipants = string.Empty;
+
+            if (teamItem != null && teamItem.TemplateID == TournamentFields.Templates.TournamentTeam.ID)
+            {
+                linkToParticipants = Sitecore.Links.LinkManager.GetItemUrl(teamItem);
+            }
+
+            return linkToParticipants;
+        }
+        public TournamentTeam GetTournamentTeam(Item teamItem)
+        {
+            return new TournamentTeam
+            {
+                Id = teamItem.ID.ToString(),
+                TeamName = teamItem.Fields[TournamentFields.Templates.TournamentTeam.Fields.TeamNameFieldId].Value,
+                TeamDescription = teamItem.Fields[TournamentFields.Templates.TournamentTeam.Fields.TeamDescriptionFieldId].Value,
+                LogoUrl = GetImageURLFromItem(teamItem, TournamentFields.Templates.TournamentTeam.Fields.TeamLogoFieldId),
+                TeamMembers = GetTeamMembers(teamItem),
+                LinkToSelf = GetLinkToTeam(teamItem)
+            };
+        }
+        public TournamentMatches GetTournamentMatches(Item tournamentMatchesItem)
+        {
+            TournamentMatches tournamentMatches = new TournamentMatches();
+
+            List<TournamentMatch> tournamentMatchesList = new List<TournamentMatch>();
+
+            foreach (Item matchItem in tournamentMatchesItem.Children)
+            {
+                if (matchItem.TemplateID == TournamentFields.Templates.TournamentMatch.ID)
+                {
+                    DateTime DateOfMatch;
+                    if (DateTime.TryParse(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.DateOfMatchFieldId]?.Value, out DateOfMatch))
+                    {
+                        // DateOfMatch is successfully parsed.
+                    }
+                    else
+                    {
+                        DateOfMatch = DateTime.MinValue; // Set it to the minimum date.
+                    }
+                    TournamentMatch tournamentMatch = new TournamentMatch
+                    {
+                        Id = matchItem.ID.ToString(),
+                        FirstParticipant = GetMatchParticipant(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.FirstParticipantFieldId].Value),
+                        SecondParticipant = GetMatchParticipant(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.SecondParticipantFieldId].Value),
+                        DateOfMatch = DateOfMatch,
+                        Score = Int32.TryParse(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.ScoreFieldId].Value, out var age) ? age : 0,
+                        Winner = matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.WinnerFieldId].Value
+                    };
+
+                    tournamentMatchesList.Add(tournamentMatch);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+            tournamentMatches.tournamentMatches = tournamentMatchesList;
+
+            return tournamentMatches;
+        }
+
+        private TournamentParticipant GetMatchParticipant(string value)
+        {
+            Item participant = _masterDb.GetItem(value);
+
+            if(participant.TemplateID == TournamentFields.Templates.Participant.ID)
+            {
+
+            }
+            if (participant == null)
+            {
+                return null;
+            }
+
+            return new TournamentParticipant
+            {
+                Id = participant.ID.ToString(),
+                Name = participant.Fields[TournamentFields.Templates.Participant.Fields.NameFieldId]?.Value,
+                Surname = participant.Fields[TournamentFields.Templates.Participant.Fields.SurnameFieldId]?.Value,
+                Info = participant.Fields[TournamentFields.Templates.Participant.Fields.InformationFieldId]?.Value,
+                Age = Int32.TryParse(participant.Fields[TournamentFields.Templates.Participant.Fields.AgeFieldId]?.Value, out var age) ? age : 0,
+                Image = GetImageURLFromItem(participant, TournamentFields.Templates.Participant.Fields.ImageFieldId),
+                LinkToSelf = GetLinkToParticipant(participant)
+            };
+        }
     }
 }

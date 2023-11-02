@@ -1,61 +1,64 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournament Details</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+﻿@model TourneyHub.Feature.Tournament.Models.TournamentModel
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Tournament Name</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Tournament Settings <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#tournament-details">Tournament Details</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#teams-participants">Teams/Participants</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#fixtures-results">Fixtures & Results</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <!-- Column for Tournament Settings -->
-            <div class="col-md-3">
-                <h2>Tournament Settings</h2>
-                <!-- Add settings content here -->
-            </div>
-            <!-- Column for Tournament Details -->
-            <div class="col-md-6" id="tournament-details">
-                <h2>Tournament Details</h2>
-                <!-- Add tournament details content here -->
-            </div>
-            <!-- Column for Teams/Participants -->
-            <div class="col-md-3" id="teams-participants">
-                <h2>Teams/Participants</h2>
-                <!-- Add teams/participants content here -->
-            </div>
+            <!-- Vertical Navbar -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Model.LinkToSelf">@Model.TournamentName</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Model.LinkToParticipants">
+                                Teams/Participants
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Model.LinkToTournamentMatches">
+                                Matches
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10">
+                <div class="container">
+                    <div class="row">
+                        <!-- Column for Tournament Settings -->
+                        <!--<div class="col-md-3">
+                            <h2>Tournament Settings</h2>-->
+                            <!-- Add settings content here -->
+                        <!--</div>-->
+                        <!-- Column for Tournament Details -->
+                        <div class="col-md-6" id="tournament-details">
+                            <h2>Tournament Details</h2>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Tournament Type</th>
+                                    <td>@Model.TournamentType</td>
+                                </tr>
+                                <tr>
+                                    <th>Tournament Format</th>
+                                    <td>@Model.TournamentFormat</td>
+                                </tr>
+                                <tr>
+                                    <th>Sport Name</th>
+                                    <td>@Model.SportName</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- Column for Teams/Participants -->
+                        <!--<div class="col-md-3" id="teams-participants">
+                            <h2>Teams/Participants</h2>-->
+                            <!-- Add teams/participants content here -->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </main>
+
         </div>
     </div>
-
-    <!-- Fixtures & Results Section -->
-    <div class="container" id="fixtures-results">
-        <h2>Fixtures & Results</h2>
-        <!-- Add fixtures and results tables or content here -->
-    </div>
-
 </body>
-</html>

@@ -84,6 +84,7 @@ namespace TourneyHub.Feature.Tournament.Fields
                     public static readonly ID SurnameFieldId = new ID("{394CFFA9-ADF0-432D-A4CE-54B6FB974251}");
                     public static readonly ID InformationFieldId = new ID("{A5598208-72DF-4624-9600-AEDD2075AD2C}");
                     public static readonly ID AgeFieldId = new ID("{67F1064F-6DD6-4381-AE66-CCEEE8CC931D}");
+                    public static readonly ID ImageFieldId = new ID("{BE342206-4438-4AA7-A9C6-28F04C1E89B7}");
 
                 }
             }

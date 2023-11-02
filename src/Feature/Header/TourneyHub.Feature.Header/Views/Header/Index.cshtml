@@ -1,13 +1,5 @@
-﻿@using System.Web.Mvc.Html
-@using Sitecore.Links
-@using Sitecore.Mvc
-@using Sitecore.Security.Authentication;
-@using TourneyHub.Feature.Header.Controllers;
-@model TourneyHub.Feature.Header.Models.HeaderModel
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href=@Model.Page.ItemLink>
-        @*<image mediaid="{F2037C3C-AF8C-4D70-B794-EAD8440AF6D3}" alt="Logo Jpg" height="" width="" hspace="" vspace="" /> hard code *@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="@Model.Page.ItemLink">
         @Html.Sitecore().Field(Model.LogoID, new { mh = "100", mw = "100" })
     </a>
 
@@ -15,36 +7,29 @@
         <ul class="navbar-nav mr-auto">
             @foreach (var item in @Model.Page.Children)
             {
-                if (item.Children.Count > 0)
-                {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @item.MenuItem.Name
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @foreach (var page in @item.Children)
-                            {
-                                <a class="dropdown-item" href="@page.ItemLink">@page.MenuItem.Name</a>
-                                <div class="dropdown-divider"></div>
-                            }
-
-
-                        </div>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href=@item.ItemLink>@item.MenuItem.Name</a>
-                    </li>
-                }
-
+                // Your existing navigation menu code here
             }
-
-
         </ul>
 
+        <ul class="navbar-nav">
+            @if (Sitecore.Context.User.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Welcome, @Sitecore.Context.User.Profile.FullName</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Login">Logout</a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Registration">Register</a>
+                </li>
+            }
+        </ul>
     </div>
 </nav>
-
-

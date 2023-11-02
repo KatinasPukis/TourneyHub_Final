@@ -1,0 +1,64 @@
+﻿@model TourneyHub.Feature.Tournament.Models.TournamentParticipants
+@if (Model.Participants != null || Model.Teams != null)
+{
+    <body>
+
+        @if (Model.Participants != null && Model.Participants.Count > 0)
+        {
+            <div class="container">
+                <h1>Tournament Participants</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Age</th>
+                            <th>Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var participant in Model.Participants)
+                        {
+                            <tr>
+                                <td><a href="@participant.LinkToSelf">@participant.Name</a></td>
+                                <td>@participant.Surname</td>
+                                <td>@participant.Age</td>
+                                <td>@participant.Info</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (Model.Teams != null && Model.Teams.Count > 0)
+        {
+
+            <div class="container">
+                <h1>Tournament Teams</h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Team Description</th>
+                            <th>Logo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var team in Model.Teams)
+                        {
+                            <tr>
+                                <td><a href="@team.LinkToSelf">@team.TeamName</a></td>
+                                <td>@team.TeamDescription</td>
+                                <td><img src="@team.LogoUrl" alt="@team.TeamName Logo" height="50" width="50"></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+    </body>
+}

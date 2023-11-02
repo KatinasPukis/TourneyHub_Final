@@ -1,0 +1,28 @@
+﻿@model TourneyHub.Feature.Tournament.Models.TournamentParticipant
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- User Profile Picture -->
+                <img src="@Model.Image" alt="User's Profile Picture" class="img-fluid rounded-circle">
+            </div>
+            <div class="col-md-8">
+                <!-- User Information -->
+                <h1>@Model.Name @Model.Surname</h1>
+                <p>Age: @Model.Age</p>
+            </div>
+        </div>
+
+        <!-- User's Details -->
+        <div class="mt-4">
+            <h2>User Info</h2>
+            <p>@Model.Info</p>
+        </div>
+    </div>
+
+</body>
+</html>

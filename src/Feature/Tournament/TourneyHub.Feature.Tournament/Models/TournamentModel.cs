@@ -13,6 +13,8 @@ namespace TourneyHub.Feature.Tournament.Models
         public string TournamentName { get; set; }
         public string LinkToSelf { get; set; }
         public string CreatedByUser { get; set; }
+        public string LinkToParticipants { get; set; }
+        public string LinkToTournamentMatches { get; set; }
     }
 
 }
