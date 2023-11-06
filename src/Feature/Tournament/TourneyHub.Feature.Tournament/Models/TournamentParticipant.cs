@@ -14,5 +14,6 @@ namespace TourneyHub.Feature.Tournament.Models
         public int Age { get; set; }
         public string Image { get; set; }
         public string LinkToSelf { get; set; }
+        public HttpPostedFileBase EditImage { get; set; }
     }
 }

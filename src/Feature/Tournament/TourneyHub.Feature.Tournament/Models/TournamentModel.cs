@@ -7,6 +7,7 @@ namespace TourneyHub.Feature.Tournament.Models
 {
     public class TournamentModel
     {
+        public string Id { get; set; }
         public string TournamentType { get; set; }
         public string TournamentFormat { get; set; }
         public string SportName { get; set; }
@@ -15,6 +16,7 @@ namespace TourneyHub.Feature.Tournament.Models
         public string CreatedByUser { get; set; }
         public string LinkToParticipants { get; set; }
         public string LinkToTournamentMatches { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 
 }

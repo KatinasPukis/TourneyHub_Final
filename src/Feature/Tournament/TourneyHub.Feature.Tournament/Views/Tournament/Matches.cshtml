@@ -1,4 +1,6 @@
-﻿@model TourneyHub.Feature.Tournament.Models.TournamentMatches
+﻿@using System
+@using TourneyHub.Feature.Tournament.Models
+@model TourneyHub.Feature.Tournament.Models.TournamentMatches
 <style>
     html {
         height: 100%;
@@ -177,44 +179,170 @@
         font-size: .8rem;
         padding: 0 .6rem;
     }
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    /* Hide scrollbar when modal is open */
+    body.modal-open {
+        overflow: hidden;
+    }
 </style>
 @{
     var roundCount = Model.tournamentMatches.Count * 2;
 
 }
-<div class="tournament-container">
-    <div class="tournament-headers">
-        <h3>Round of @roundCount</h3>
-        <h3>Quarter-Finals</h3>
+<body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="teamDetails">
+                <!-- Content for the popup goes here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="tournament-container">
+        <div class="tournament-headers">
+            <h3>Round of @roundCount</h3>
+            <h3>Quarter-Finals</h3>
             <h3>Semi-Finals</h3>
             <h3>Final</h3>
             <h3>Winner</h3>
+        </div>
+        @if (Model.IsIndividual == true)
+        {
+            @* Individual *@
+            <div class="tournament-brackets">
+                <ul class="bracket bracket-1">
+                    @foreach (var matches in Model.tournamentMatches)
+                    {
+
+                        <li class="team-item">
+                            <a href="@matches.FirstParticipant.LinkToSelf"> @matches.FirstParticipant.Name</a>
+                            <time>@matches.DateOfMatch</time>
+                            <a href="@matches.SecondParticipant.LinkToSelf"> @matches.SecondParticipant.Name</a>
+                        </li>
+                    }
+                </ul>
+
+                <ul class="bracket bracket-2">
+                    @*<li class="team-item">QF1 <time>20:00</time> QF2</li>
+                        <li class="team-item">QF3 <time>20:00</time> QF4</li>
+                        <li class="team-item">QF5 <time>20:00</time> QF6</li>
+                        <li class="team-item">QF7 <time>20:00</time> QF8</li>*@
+                </ul>
+                <ul class="bracket bracket-3">
+                    @*<li class="team-item">SF1 <time>20:00</time> SF2</li>
+                        <li class="team-item">SF3 <time>20:00</time> SF4</li>*@
+                </ul>
+                <ul class="bracket bracket-4">
+                    @*<li class="team-item">F1 <time>20:00</time> F2</li>*@
+                </ul>
+
+                <ul class="bracket bracket-5">
+                    @*<li class="team-item">European Champions</li>*@
+                </ul>
+            </div>
+        }
+        else
+        {
+            @* Team *@
+            <div class="tournament-brackets">
+                <ul class="bracket bracket-1">
+                    @foreach (var matches in Model.tournamentMatches)
+                    {
+
+                        <li class="team-item">
+                            <a href="@matches.FirstTeam.LinkToSelf">@matches.FirstTeam.TeamName</a>
+                            <time>@matches.DateOfMatch</time>
+                            <a href="@matches.SecondTeam.LinkToSelf">@matches.SecondTeam.TeamName</a>
+                        </li>
+
+                    }
+                </ul>
+
+                <ul class="bracket bracket-2">
+                    @*<li class="team-item">QF1 <time>20:00</time> QF2</li>
+                        <li class="team-item">QF3 <time>20:00</time> QF4</li>
+                        <li class="team-item">QF5 <time>20:00</time> QF6</li>
+                        <li class="team-item">QF7 <time>20:00</time> QF8</li>*@
+                </ul>
+                <ul class="bracket bracket-3">
+                    @*<li class="team-item">SF1 <time>20:00</time> SF2</li>
+                        <li class="team-item">SF3 <time>20:00</time> SF4</li>*@
+                </ul>
+                <ul class="bracket bracket-4">
+                    @*<li class="team-item">F1 <time>20:00</time> F2</li>*@
+                </ul>
+
+                <ul class="bracket bracket-5">
+                    @*<li class="team-item">European Champions</li>*@
+                </ul>
+            </div>
+        }
+
     </div>
+</body>
+<script>
+    $(document).ready(function () {
+        // Get all team item elements
+        var teamItems = $('.team-item');
 
-    <div class="tournament-brackets">
-        <ul class="bracket bracket-1">
-            @foreach (var matches in Model.tournamentMatches)
-            {
-                <li class="team-item">@matches.FirstParticipant.Name <time>@matches.DateOfMatch</time> @matches.SecondParticipant.Name</li>
-            }
-        </ul>
+        // Get the modal element
+        var modal = $('#myModal');
 
-        <ul class="bracket bracket-2">
-            @*<li class="team-item">QF1 <time>20:00</time> QF2</li>
-                <li class="team-item">QF3 <time>20:00</time> QF4</li>
-                <li class="team-item">QF5 <time>20:00</time> QF6</li>
-                <li class="team-item">QF7 <time>20:00</time> QF8</li>*@
-        </ul>
-        <ul class="bracket bracket-3">
-            @*<li class="team-item">SF1 <time>20:00</time> SF2</li>
-                <li class="team-item">SF3 <time>20:00</time> SF4</li>*@
-        </ul>
-        <ul class="bracket bracket-4">
-            @*<li class="team-item">F1 <time>20:00</time> F2</li>*@
-        </ul>
+        // Get the team details container inside the modal
+        var teamDetails = $('#teamDetails');
 
-        <ul class="bracket bracket-5">
-            @*<li class="team-item">European Champions</li>*@
-        </ul>
-    </div>
-</div>
+        // Add a click event listener to each team item
+        teamItems.click(function () {
+            // Extract the team information from the clicked item
+            var teamInfo = $(this).text().trim();
+
+            // Update the team details in the modal
+            teamDetails.html(teamInfo);
+
+            // Display the modal
+            modal.css('display', 'block');
+
+            // Prevent the body from scrolling when the modal is open
+            $('body').addClass('modal-open');
+        });
+
+        // Close the modal when the close button is clicked
+        $('.close').click(function () {
+            modal.css('display', 'none');
+            $('body').removeClass('modal-open');
+        });
+    });
+
+
+</script>

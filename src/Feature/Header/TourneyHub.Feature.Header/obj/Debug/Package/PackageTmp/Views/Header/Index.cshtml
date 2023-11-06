@@ -1,21 +1,28 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+﻿@model TourneyHub.Feature.Header.Models.HeaderModel
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="@Model.Page.ItemLink">
         @Html.Sitecore().Field(Model.LogoID, new { mh = "100", mw = "100" })
     </a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            @foreach (var item in @Model.Page.Children)
+            @if (Sitecore.Context.User.IsAuthenticated)
             {
-                // Your existing navigation menu code here
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home">Create A Tournament</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Model.LinkToUserPage">My Tournaments</a>
+                </li>
             }
         </ul>
+
 
         <ul class="navbar-nav">
             @if (Sitecore.Context.User.IsAuthenticated)
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Welcome, @Sitecore.Context.User.Profile.FullName</a>
+                    <a class="nav-link" href="@Model.LinkToUserPage">@Sitecore.Context.User.Profile.FullName</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Login">Logout</a>

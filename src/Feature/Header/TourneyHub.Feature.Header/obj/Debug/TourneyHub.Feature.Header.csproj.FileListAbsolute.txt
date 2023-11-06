@@ -80,3 +80,9 @@ C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\obj\Debug\T
 C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\obj\Debug\TourneyHub.Feature.Header.csproj.CopyComplete
 C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\obj\Debug\TourneyHub.Feature.Header.dll
 C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\obj\Debug\TourneyHub.Feature.Header.pdb
+C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\bin\TourneyHub.Feature.Registration.dll
+C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\bin\TourneyHub.Feature.Tournament.dll
+C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\bin\TourneyHub.Feature.Registration.pdb
+C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\bin\TourneyHub.Feature.Registration.dll.config
+C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\bin\TourneyHub.Feature.Tournament.pdb
+C:\TouneyHub\TourneyHub\src\Feature\Header\TourneyHub.Feature.Header\bin\TourneyHub.Feature.Tournament.dll.config

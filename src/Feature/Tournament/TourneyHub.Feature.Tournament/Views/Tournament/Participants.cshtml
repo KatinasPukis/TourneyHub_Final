@@ -1,16 +1,45 @@
 ﻿@model TourneyHub.Feature.Tournament.Models.TournamentParticipants
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tournament Participants and Teams</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        .table {
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        img.team-logo {
+            max-width: 50px;
+            max-height: 50px;
+        }
+    </style>
+</head>
+
 @if (Model.Participants != null || Model.Teams != null)
 {
     <body>
-
-        @if (Model.Participants != null && Model.Participants.Count > 0)
-        {
-            <div class="container">
-                <h1>Tournament Participants</h1>
-                <table class="table table-bordered">
+        <div class="container">
+            @if (Model.Participants != null && Model.Participants.Count > 0)
+            {
+                <h1 class="text-center">Tournament Participants</h1>
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Age</th>
@@ -29,15 +58,12 @@
                         }
                     </tbody>
                 </table>
-            </div>
-        }
+            }
 
-        @if (Model.Teams != null && Model.Teams.Count > 0)
-        {
-
-            <div class="container">
-                <h1>Tournament Teams</h1>
-                <table class="table table-bordered">
+            @if (Model.Teams != null && Model.Teams.Count > 0)
+            {
+                <h1 class="text-center">Tournament Teams</h1>
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Team Name</th>
@@ -51,14 +77,15 @@
                             <tr>
                                 <td><a href="@team.LinkToSelf">@team.TeamName</a></td>
                                 <td>@team.TeamDescription</td>
-                                <td><img src="@team.LogoUrl" alt="@team.TeamName Logo" height="50" width="50"></td>
+                                <td>
+                                    <img src="@team.LogoUrl" alt="@team.TeamName Logo" class="team-logo">
+                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-            </div>
-        }
-
-
+            }
+        </div>
     </body>
 }
+</html>

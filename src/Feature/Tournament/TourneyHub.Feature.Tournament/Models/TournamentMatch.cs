@@ -10,6 +10,8 @@ namespace TourneyHub.Feature.Tournament.Models
         public string Id { get; set; }
         public TournamentParticipant FirstParticipant { get; set; }
         public TournamentParticipant SecondParticipant { get; set; }
+        public TournamentTeam FirstTeam { get; set; }
+        public TournamentTeam SecondTeam { get; set; }
         public int Score { get; set; }
         public string Winner { get; set; }
         public DateTime DateOfMatch { get; set; }

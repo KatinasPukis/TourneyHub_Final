@@ -153,7 +153,16 @@
     <None Include="Views\Web.config" />
     <Content Include="Views\Header\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Registration\TourneyHub.Feature.Registration\TourneyHub.Feature.Registration.csproj">
+      <Project>{DB7C36C6-AC70-453A-BEE8-2A346FA3B844}</Project>
+      <Name>TourneyHub.Feature.Registration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tournament\TourneyHub.Feature.Tournament\TourneyHub.Feature.Tournament.csproj">
+      <Project>{155e3020-fb57-4862-b48f-fbac62db1835}</Project>
+      <Name>TourneyHub.Feature.Tournament</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

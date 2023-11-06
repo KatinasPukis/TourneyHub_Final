@@ -12,6 +12,7 @@ namespace TourneyHub.Feature.Tournament.Models
         public string TeamDescription { get; set; }
         public string LogoUrl { get; set; }
         public List<TournamentParticipant> TeamMembers { get; set; }
+        public HttpPostedFileBase TeamImage { get; set; }
         public string LinkToSelf { get; set; }
     }
 }

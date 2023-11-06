@@ -1,49 +1,90 @@
 ﻿@model TourneyHub.Feature.Tournament.Models.TournamentTeam
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@Model.TeamName</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for styling */
+        .card {
+            width: 100%;
+            position: relative;
+        }
 
+        .img-fluid {
+            max-width: 150px;
+            max-height: 150px;
+        }
+
+        .modal-content {
+            border: none;
+        }
+
+        .edit-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
 <body>
 
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <!-- User Profile Picture -->
-                <img src="@Model.LogoUrl" alt="team Picture" class="img-fluid rounded-circle">
-            </div>
-            <div class="col-md-8">
-                <!-- User Information -->
-                <h1>@Model.TeamName</h1>
+        <div class="card" data-team-id="@Model.Id">
+            <div class="card-body">
+                <!-- Edit Button (in the right corner of the card) -->
+                <button id="editTeamButton" class="btn btn-primary edit-button">Edit</button>
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <!-- Team Logo -->
+                        <img src="@Model.LogoUrl" alt="Team Picture" class="img-fluid rounded-circle">
+                    </div>
+                    <div class="col-md-8">
+                        <!-- Team Name -->
+                        <h1>@Model.TeamName</h1>
+                    </div>
+                </div>
+                <h2 class="mt-4">Team Info</h2>
+                <p>@Model.TeamDescription</p>
             </div>
         </div>
-        <!-- User's Details -->
-        <div class="mt-4">
-            <h2>Team Info</h2>
-            <p>@Model.TeamDescription</p>
-        </div>
-        <!-- User's Details -->
-        <div class="container">
-            <h1>Team Participants</h1>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Age</th>
-                        <th>Info</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var participant in Model.TeamMembers)
-                    {
-                        <tr>
-                            <td><a href="@participant.LinkToSelf">@participant.Name</a></td>
-                            <td>@participant.Surname</td>
-                            <td>@participant.Age</td>
-                            <td>@participant.Info</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+
+        <!-- Popup Modal -->
+        <div class="modal fade" id="editTeamModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Fields</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Fields to edit go here -->
+                        <form id="editTeamForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="TeamName">Team Name</label>
+                                <input type="text" class="form-control" id="TeamName" value="@Model.TeamName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="TeamDescription">Team Description</label>
+                                <input type="text" class="form-control" id="TeamDescription" value="@Model.TeamDescription">
+                            </div>
+                            <div class="form-group">
+                                <label for="teamimage">Team Image</label>
+                                <input type="file" class="form-control-file" id="teamimage" name="teamimage" accept="image/*">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="saveTeamButton" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

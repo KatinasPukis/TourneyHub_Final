@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\wwwroot\TourneyHub.sc</_PublishTargetUrl>
-    <History>True|2023-10-04T15:27:35.7944645Z;</History>
+    <History>True|2023-11-03T17:32:13.7350708Z;True|2023-10-04T18:27:35.7944645+03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -198,16 +198,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/28/2018 12:04:24</publishTime>
     </File>
     <File Include="bin/TourneyHub.Feature.Footer.dll">
-      <publishTime>10/04/2023 18:33:18</publishTime>
+      <publishTime>11/03/2023 19:32:13</publishTime>
     </File>
     <File Include="bin/TourneyHub.Feature.Footer.pdb">
-      <publishTime>10/04/2023 18:33:18</publishTime>
+      <publishTime>11/03/2023 19:32:13</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 12:57:34</publishTime>
     </File>
     <File Include="Views/Footer/Index.cshtml">
-      <publishTime>10/02/2023 18:27:46</publishTime>
+      <publishTime>11/03/2023 19:32:06</publishTime>
     </File>
     <File Include="Web.Debug.config">
       <publishTime>10/02/2023 18:23:11</publishTime>

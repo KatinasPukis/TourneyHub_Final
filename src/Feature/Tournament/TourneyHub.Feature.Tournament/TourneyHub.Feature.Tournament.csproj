@@ -149,6 +149,7 @@
     <Compile Include="Models\TournamentTeam.cs" />
     <Compile Include="Models\TournamentType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\TournamentEditService.cs" />
     <Compile Include="Services\TournamentService.cs" />
   </ItemGroup>
   <ItemGroup>

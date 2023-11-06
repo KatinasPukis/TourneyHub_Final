@@ -1,4 +1,29 @@
 ﻿@model TourneyHub.Feature.Tournament.Models.TournamentModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@Model.TournamentName</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for styling */
+        .nav-link {
+            color: #333;
+        }
+
+            .nav-link:hover {
+                color: #007bff;
+            }
+
+        /* Adjust vertical navbar width */
+        .sidebar {
+            width: 250px;
+        }
+    </style>
+</head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -10,14 +35,10 @@
                             <a class="nav-link" href="@Model.LinkToSelf">@Model.TournamentName</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Model.LinkToParticipants">
-                                Teams/Participants
-                            </a>
+                            <a class="nav-link" href="@Model.LinkToParticipants">Teams/Participants</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="@Model.LinkToTournamentMatches">
-                                Matches
-                            </a>
+                            <a class="nav-link" href="@Model.LinkToTournamentMatches">Matches</a>
                         </li>
                     </ul>
                 </div>
@@ -27,13 +48,8 @@
             <main class="col-md-10">
                 <div class="container">
                     <div class="row">
-                        <!-- Column for Tournament Settings -->
-                        <!--<div class="col-md-3">
-                            <h2>Tournament Settings</h2>-->
-                            <!-- Add settings content here -->
-                        <!--</div>-->
                         <!-- Column for Tournament Details -->
-                        <div class="col-md-6" id="tournament-details">
+                        <div class="col-md-6">
                             <h2>Tournament Details</h2>
                             <table class="table table-bordered">
                                 <tr>
@@ -50,15 +66,11 @@
                                 </tr>
                             </table>
                         </div>
-                        <!-- Column for Teams/Participants -->
-                        <!--<div class="col-md-3" id="teams-participants">
-                            <h2>Teams/Participants</h2>-->
-                            <!-- Add teams/participants content here -->
-                        <!--</div>-->
+                        <!-- Add more columns/content as needed -->
                     </div>
                 </div>
             </main>
-
         </div>
     </div>
 </body>
+</html>

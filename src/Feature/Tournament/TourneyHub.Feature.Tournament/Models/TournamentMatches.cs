@@ -8,6 +8,7 @@ namespace TourneyHub.Feature.Tournament.Models
     public class TournamentMatches
     {
         public string Id { get; set; }
+        public bool IsIndividual { get; set; }
         public List<TournamentMatch> tournamentMatches { get; set; }
     }
 }

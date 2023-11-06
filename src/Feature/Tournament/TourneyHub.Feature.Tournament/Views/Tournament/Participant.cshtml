@@ -1,28 +1,98 @@
 ﻿@model TourneyHub.Feature.Tournament.Models.TournamentParticipant
+
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@Model.Name @Model.Surname</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for styling */
+        .card {
+            width: 100%;
+        }
 
+        .img-fluid {
+            max-width: 150px;
+            max-height: 150px;
+        }
+
+        .modal-content {
+            border: none;
+        }
+    </style>
+</head>
 <body>
-
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <!-- User Profile Picture -->
-                <img src="@Model.Image" alt="User's Profile Picture" class="img-fluid rounded-circle">
-            </div>
-            <div class="col-md-8">
-                <!-- User Information -->
-                <h1>@Model.Name @Model.Surname</h1>
-                <p>Age: @Model.Age</p>
+
+        <!-- Card for User Information -->
+        <div class="card" data-participant-id="@Model.Id">
+            <div class="card-body">
+                <!-- Edit Button (inside user profile div) -->
+                <button id="editButton" class="btn btn-primary float-right">Edit</button>
+
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <!-- User Profile Picture -->
+                        <img src="@Model.Image" alt="User's Profile Picture" class="img-fluid rounded-circle">
+                    </div>
+                    <div class="col-md-8">
+                        <!-- User Information -->
+                        <h1>@Model.Name @Model.Surname</h1>
+                        <p>Age: @Model.Age</p>
+                    </div>
+                </div>
+
+                <!-- User's Details -->
+                <h2 class="mt-4">User Info</h2>
+                <p>@Model.Info</p>
             </div>
         </div>
 
-        <!-- User's Details -->
-        <div class="mt-4">
-            <h2>User Info</h2>
-            <p>@Model.Info</p>
+        <!-- Popup Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Fields</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Fields to edit go here -->
+                        <form id="editForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" value="@Model.Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="surname">Surname</label>
+                                <input type="text" class="form-control" id="surname" value="@Model.Surname">
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="number" class="form-control" id="age" value="@Model.Age" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="info">User Info</label>
+                                <textarea class="form-control" id="info">@Model.Info</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Profile Image</label>
+                                <input type="file" class="form-control-file" id="editimage" name="editimage" accept="image/*">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="saveButton" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </body>
 </html>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TourneyHub.Feature.Registration.Models;
 using TourneyHub.Feature.Tournament.Models;
 using TourneyHub.Feature.Tournament.Services;
 
@@ -13,6 +14,7 @@ namespace TourneyHub.Feature.Tournament.Controllers
     public class TournamentController : Controller
     {
         private readonly TournamentService tournamentService = new TournamentService();
+        private readonly TournamentEditService tournamentEditService = new TournamentEditService();
         public ActionResult Index()
         {
             return View();
@@ -21,10 +23,12 @@ namespace TourneyHub.Feature.Tournament.Controllers
         public ActionResult Overview()
         {
             List<TournamentModel> tournamentModels = tournamentService.GetTournaments();
-            Item currentUser = tournamentService.GetCurrentUserItem();
+
+            UserViewModel userData = tournamentService.GetUserData();
+
             TournamentOverview tournamentOverview = new TournamentOverview
             {
-                CurrentUserId = currentUser.ID.ToString(),
+                UserData = userData,
                 tournaments = tournamentModels
             };
 
@@ -55,14 +59,14 @@ namespace TourneyHub.Feature.Tournament.Controllers
             TournamentParticipant tournamentParticipant = tournamentService.GetParticipant(rendering.Item);
 
             return View(tournamentParticipant);
-           
+
         }
 
         public ActionResult Team()
         {
             Rendering rendering = RenderingContext.Current.Rendering;
 
-            if(rendering.Item!=null)
+            if (rendering.Item != null)
             {
                 TournamentTeam tournamentTeam = tournamentService.GetTournamentTeam(rendering.Item);
                 return View(tournamentTeam);
@@ -79,9 +83,9 @@ namespace TourneyHub.Feature.Tournament.Controllers
             return View(tournamentMatches);
         }
 
-        public ActionResult GetTournamentFormData(TournamentFormData tournamentFormData=null)
+        public ActionResult GetTournamentFormData(TournamentFormData tournamentFormData = null)
         {
-            
+
             tournamentService.CreateTournament(tournamentFormData);
 
             Item currentUser = tournamentService.GetCurrentUserItem();
@@ -105,6 +109,63 @@ namespace TourneyHub.Feature.Tournament.Controllers
             // Return the response as JSON
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult EditTournamentParticipant(TournamentParticipant participantData = null)
+        {
+            try
+            {
+                tournamentEditService.EditTournamentParticipantItem(participantData);
+                return Json(new { success = true, message = "Changes saved" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem saving your changes" });
+            }
+        }
+        public ActionResult EditTournamentTeam(TournamentTeam tournamentTeam = null)
+        {
+            try
+            {
+                tournamentEditService.EditTournamentTeamItem(tournamentTeam);
+                return Json(new { success = true, message = "Changes saved" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem saving your changes" });
+            }
+        }
+        public ActionResult EditUserProfile(UserViewModel user = null)
+        {
+            try
+            {
+                tournamentEditService.EditUser(user);
+                return Json(new { success = true, message = "Changes saved" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem saving your changes" });
+            }
+        }
+        public ActionResult DeleteTournament(string tournamentId = null)
+        {
+            try
+            {
+                tournamentEditService.DeleteTournament(tournamentId);
+                return Json(new { success = true, message = "Tournament Deleted" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem deleting the tournament" });
+            }
+        }
+
 
     }
 }

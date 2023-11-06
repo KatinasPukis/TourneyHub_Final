@@ -1,33 +1,107 @@
 ﻿@model TourneyHub.Feature.Tournament.Models.TournamentOverview
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
 <body>
     <div class="container">
-        <h1>My Tournaments</h1>
-        <div class="text-center mt-3">
-            <a href="/Home" class="btn btn-primary btn-lg">Create A New Tournament</a>
-        </div>
         <div class="row">
-            @{
-                foreach (var data in Model.tournaments)
-                {
-                    if (data.CreatedByUser == Model.CurrentUserId)
-                    {
-                        <div class="col-md-6">
-                            <div class="card mb-3">
-                                @*<img src="tournament-image.jpg" class="card-img-top" alt="Tournament Image">*@
-                                <div class="card-body">
-                                    <h5 class="card-title">@data.TournamentName</h5>
-                                    <p class="card-text">@data.SportName</p>
-                                    <a href="@data.LinkToSelf" class="btn btn-primary">View Details</a>
+            <div class="col-md-8">
+                <h1>My Tournaments</h1>
+
+                <!-- Create a Tournament and Edit Buttons in the Same Line -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <a href="/Home" class="btn btn-primary">Create A New Tournament</a>
+                    <button id="editUserButton" class="btn btn-primary">Edit User Data</button>
+                </div>
+
+                <div class="row">
+                    @{
+                        foreach (var data in Model.tournaments)
+                        {
+                            if (data.CreatedByUser == Model.UserData.Id)
+                            {
+                                <div class="col-md-6">
+                                    <div class="card mb-3 border-1">
+                                        <div class="card-body" data-tournament-id="@data.Id">
+                                            <h5 class="card-title">Tournament name: @data.TournamentName</h5>
+                                            <p class="card-text">Sport name: @data.SportName</p>
+                                            <p class="card-text">Created on: @data.DateCreated.ToString("MMMM dd, yyyy")</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <a href="@data.LinkToSelf" class="btn btn-primary">View Details</a>
+                                                <button class="btn btn-danger" onclick="deleteTournament('@data.Id')">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            }
+                        }
                     }
+                </div>
 
-                }
-            }
 
+            </div>
+
+            <div class="col-md-4">
+                <!-- User Data Card on the right -->
+                <div class="card mb-3 border-1">
+                    <div class="card-body">
+                        <h5 class="card-title">User Information</h5>
+                        <p class="card-text">
+                            <strong>Username:</strong> @Model.UserData.Username<br>
+                            <strong>Name:</strong> @Model.UserData.Name<br>
+                            <strong>Surname:</strong> @Model.UserData.Surname<br>
+                            <strong>Email:</strong> @Model.UserData.Email
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+
+    <!-- Popup Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Fields</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Fields to edit go here -->
+                    <form id="editUserForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" value="@Model.UserData.Username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" value="@Model.UserData.Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Surname</label>
+                            <input type="text" class="form-control" id="surname" value="@Model.UserData.Surname">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" value="@Model.UserData.Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="saveUserButton" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
