@@ -1,8 +1,11 @@
 ﻿@model TourneyHub.Feature.Tournament.Models.TournamentOverview
+<html>
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
+
 <body>
     <div class="container">
         <div class="row">
@@ -24,7 +27,7 @@
                                 <div class="col-md-6">
                                     <div class="card mb-3 border-1">
                                         <div class="card-body" data-tournament-id="@data.Id">
-                                            <h5 class="card-title">Tournament name: @data.TournamentName</h5>
+                                            <h5 class="card-title">@data.TournamentName</h5>
                                             <p class="card-text">Sport name: @data.SportName</p>
                                             <p class="card-text">Created on: @data.DateCreated.ToString("MMMM dd, yyyy")</p>
                                             <div class="d-flex justify-content-between align-items-center">
@@ -45,7 +48,7 @@
             <div class="col-md-4">
                 <!-- User Data Card on the right -->
                 <div class="card mb-3 border-1">
-                    <div class="card-body">
+                    <div class="card-body" data-user-id="@Model.UserData.Id">
                         <h5 class="card-title">User Information</h5>
                         <p class="card-text">
                             <strong>Username:</strong> @Model.UserData.Username<br>
@@ -74,10 +77,6 @@
                     <!-- Fields to edit go here -->
                     <form id="editUserForm" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" value="@Model.UserData.Username" required>
-                        </div>
-                        <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" value="@Model.UserData.Name" required>
                         </div>
@@ -92,6 +91,10 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="repeatpassword">Repeat Password</label>
+                            <input type="password" class="form-control" id="repeatpassword">
                         </div>
 
                     </form>

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
     // When the "Edit" button is clicked, open the modal
     $('#editTeamButton').click(function () {
         var Id = $('.col-md-8').data('team-id'); // Get the participant ID from the data attribute
@@ -38,8 +38,7 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     if (response.success) {
-                        // Handle success, e.g., show a success message
-                        alert(response.message);
+
                         // Reload the page
                         window.location.reload();
                     } else {

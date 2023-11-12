@@ -30,6 +30,12 @@
             .step-indicator .active {
                 background-color: #007bff; /* Color for active step */
             }
+
+.col-md-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
     </style>
     <title>Multi-Step Form</title>
 </head>
@@ -49,17 +55,18 @@
                                         <label class="form-check-label" for="knockoutsBracketRadio">Knockouts Bracket</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="doubleEliminationRadio" name="tournamentFormat" value="Double-Elimination Bracket" required>
-                                        <label class="form-check-label" for "doubleEliminationRadio">Double-Elimination Bracket</label>
+                                        <input class="form-check-input" type="radio" id="doubleEliminationRadio" name="tournamentFormat" value="Double-Elimination Bracket" required disabled>
+                                        <label class="form-check-label" for="doubleEliminationRadio">Double-Elimination Bracket</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="roundRobinRadio" name="tournamentFormat" value="Round-robin League" required>
+                                        <input class="form-check-input" type="radio" id="roundRobinRadio" name="tournamentFormat" value="Round-robin League" required disabled>
                                         <label class="form-check-label" for="roundRobinRadio">Round-robin League</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="multiStageRadio" name="tournamentFormat" value="Multistage: Round-robin Groups + Knockouts Brackets" required>
+                                        <input class="form-check-input" type="radio" id="multiStageRadio" name="tournamentFormat" value="Multistage: Round-robin Groups + Knockouts Brackets" required disabled>
                                         <label class="form-check-label" for="multiStageRadio">Multistage: Round-robin Groups + Knockouts Brackets</label>
                                     </div>
+
                                 </div>
                                 <!-- Tournament Name Input Fields -->
                                 <div class="mb-3">
@@ -120,6 +127,10 @@
                                             <option value="4">4</option>
                                             <option value="5">5</option>
                                             <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
                                             <!-- Add more options as needed -->
                                         </select>
                                     </div>

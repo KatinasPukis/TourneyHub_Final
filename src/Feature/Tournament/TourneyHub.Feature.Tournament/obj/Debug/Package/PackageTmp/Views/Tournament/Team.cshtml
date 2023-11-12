@@ -1,4 +1,5 @@
-﻿@model TourneyHub.Feature.Tournament.Models.TournamentTeam
+﻿@using TourneyHub.Feature.Tournament.Models
+@model TourneyHub.Feature.Tournament.Models.TournamentTeam
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,9 +52,30 @@
                 <p>@Model.TeamDescription</p>
             </div>
         </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Age</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TournamentParticipant participant in Model.TeamMembers)
+                {
+                    <tr>
+                        <td><a href="@participant.LinkToSelf">@participant.Name</a></td>
+                        <td>@participant.Surname</td>
+                        <td>@participant.Age</td>
+                        <td>@participant.Info</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
         <!-- Popup Modal -->
-        <div class="modal fade" id="editTeamModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editTeamModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-team-id="@Model.Id">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -71,7 +93,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="TeamDescription">Team Description</label>
-                                <input type="text" class="form-control" id="TeamDescription" value="@Model.TeamDescription">
+                                <textarea class="form-control" id="TeamDescription">@Model.TeamDescription</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="teamimage">Team Image</label>

@@ -39,9 +39,7 @@
                 contentType: false,
                 success: function (response) {
                     if (response.success) {
-                        // Handle success, e.g., show a success message
-                        alert(response.message);
-                        // Reload the page
+
                         window.location.reload();
                     } else {
                         // Handle the error, e.g., show an error message

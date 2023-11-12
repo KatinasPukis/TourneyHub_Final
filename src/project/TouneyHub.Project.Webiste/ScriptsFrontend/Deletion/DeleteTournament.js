@@ -8,7 +8,6 @@
             success: function (response) {
                 // Handle the success response, e.g., refresh the page or show a message
                 if (response.success) {
-                    alert("Tournament deleted successfully");
                     window.location.reload();
                     // Optionally, you can refresh the page or perform other actions here
                 } else {

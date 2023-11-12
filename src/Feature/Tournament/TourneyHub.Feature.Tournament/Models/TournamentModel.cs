@@ -17,6 +17,8 @@ namespace TourneyHub.Feature.Tournament.Models
         public string LinkToParticipants { get; set; }
         public string LinkToTournamentMatches { get; set; }
         public DateTime DateCreated { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
 }

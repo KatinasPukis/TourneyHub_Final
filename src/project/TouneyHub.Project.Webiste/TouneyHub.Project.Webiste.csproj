@@ -292,9 +292,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="ScriptsFrontend\Deletion\DeleteTournament.js" />
     <Content Include="ScriptsFrontend\Login\Login.js" />
-    <Content Include="ScriptsFrontend\Matches\MatchesPopUp.js" />
+    <Content Include="ScriptsFrontend\Popups\MatchesModal.js" />
     <Content Include="ScriptsFrontend\Popups\ParticipantModal.js" />
     <Content Include="ScriptsFrontend\Popups\TeamModal.js" />
+    <Content Include="ScriptsFrontend\Popups\TournamentModal.js" />
     <Content Include="ScriptsFrontend\Popups\UserModal.js" />
     <Content Include="ScriptsFrontend\Registration\Registration.js" />
     <Content Include="ScriptsFrontend\Tournament\Tournament.js" />

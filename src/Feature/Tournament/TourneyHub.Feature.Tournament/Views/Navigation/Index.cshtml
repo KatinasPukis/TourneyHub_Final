@@ -1,0 +1,35 @@
+﻿@model List<TourneyHub.Feature.Tournament.Models.NavigationModel>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .page-nav {
+            background-color: #F8FA5F;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+            .page-nav a {
+                margin-right: 15px;
+                color: #333; 
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+                .page-nav a:hover {
+                    color: #007bff; 
+                }
+    </style>
+</head>
+<body>
+
+    <div class="page-nav">
+        @foreach (var navItem in Model)
+        {
+            <a href="@navItem.Url">@navItem.Title</a>
+        }
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

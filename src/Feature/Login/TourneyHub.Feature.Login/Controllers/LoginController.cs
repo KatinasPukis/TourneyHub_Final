@@ -20,14 +20,11 @@ namespace TourneyHub.Feature.Login.Controllers
         [HttpPost]
         public ActionResult UserData(string username = null, string password = null)
         {
-            Item currentUser = loginService.GetCurrentUserItem();
+           
 
             string redirectUrl = null;
 
-            if (currentUser != null)
-            {
-                redirectUrl = Sitecore.Links.LinkManager.GetItemUrl(currentUser);
-            }
+            
 
             // Return the response as JSON
             try
@@ -37,7 +34,11 @@ namespace TourneyHub.Feature.Login.Controllers
                 // Assuming 'loginService.LogInUser' returns a boolean indicating success
                 if (loginService.LogInUser(username, password))
                 {
-                    // Successful login
+                    Item currentUser = loginService.GetCurrentUserItem();
+                    if (currentUser != null)
+                    {
+                        redirectUrl = Sitecore.Links.LinkManager.GetItemUrl(currentUser);
+                    }
                     return Json(new { success = true, redirectUrl = redirectUrl });
                 }
                 else

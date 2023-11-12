@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\wwwroot\TourneyHub.sc</_PublishTargetUrl>
-    <History>True|2023-11-03T17:32:13.7350708Z;True|2023-10-04T18:27:35.7944645+03:00;</History>
+    <History>True|2023-11-12T16:11:54.1282565Z;True|2023-11-09T16:15:08.2749065+02:00;True|2023-11-09T15:29:26.5994044+02:00;True|2023-11-09T15:27:41.8861625+02:00;True|2023-11-03T19:32:13.7350708+02:00;True|2023-10-04T18:27:35.7944645+03:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -198,16 +198,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/28/2018 12:04:24</publishTime>
     </File>
     <File Include="bin/TourneyHub.Feature.Footer.dll">
-      <publishTime>11/03/2023 19:32:13</publishTime>
+      <publishTime>11/12/2023 18:11:53</publishTime>
     </File>
     <File Include="bin/TourneyHub.Feature.Footer.pdb">
-      <publishTime>11/03/2023 19:32:13</publishTime>
+      <publishTime>11/12/2023 18:11:53</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 12:57:34</publishTime>
     </File>
     <File Include="Views/Footer/Index.cshtml">
-      <publishTime>11/03/2023 19:32:06</publishTime>
+      <publishTime>11/09/2023 15:29:22</publishTime>
     </File>
     <File Include="Web.Debug.config">
       <publishTime>10/02/2023 18:23:11</publishTime>

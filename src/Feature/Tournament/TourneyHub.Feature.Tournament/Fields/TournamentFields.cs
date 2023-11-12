@@ -10,6 +10,7 @@ namespace TourneyHub.Feature.Tournament.Fields
     {
         public static readonly ID MainTemplateID = new ID("{E0E7EF3E-C3AF-4F45-A8AD-5EDEE6FD40CA}");
         public static readonly ID TournamentParentPageId = new ID("{FE5FAE09-293E-4F42-89AC-A12A314A83E5}");
+        public static readonly ID TempTournamentParentPageId = new ID("{16A402DA-EE31-420E-BFB6-C35A85BB4D11}");
 
         public static class TournamentItemNames
         {
@@ -43,6 +44,24 @@ namespace TourneyHub.Feature.Tournament.Fields
 
         public static class Templates
         {
+            public static class Score
+            {
+                public static readonly ID ID = new ID("{E956EFE6-688C-438F-8A98-F18037B1A736}");
+                public static class Fields
+                {
+                    public static readonly ID ParticipantFieldId = new ID("{DD359059-CBC2-44AE-A33B-D7792820D94A}");
+                    public static readonly ID ScoreFieldId = new ID("{305957AE-FF68-43A1-AA34-220A0FAE4E07}");
+                }
+            }
+            public static class Stage
+            {
+                public static readonly ID ID = new ID("{C1B2F160-745F-40F2-A9CC-356C2FCC13FB}");
+                public static class Fields
+                {
+                    public static readonly ID StageNameFieldId = new ID("{E54BE147-8D95-430E-99D7-136C6E8A66B8}");
+                    public static readonly ID IsAccesibleFieldId = new ID("{1D64C1E6-DFF2-4435-B04D-FB368737BA18}");
+                }
+            }
             public static class TournamentInfo
             {
                 public static class Fields

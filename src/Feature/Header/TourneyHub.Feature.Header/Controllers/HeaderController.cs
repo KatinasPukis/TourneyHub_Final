@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using TourneyHub.Feature.Tournament.Services;
 using TourneyHub.Feature.Header.Models;
+using Sitecore.Security.Authentication;
 
 namespace TourneyHub.Feature.Header.Controllers
 {
@@ -15,10 +16,8 @@ namespace TourneyHub.Feature.Header.Controllers
 
         public ActionResult Index()
         {
-            var homeItem = Sitecore.Context.Database.GetItem(HeaderFields.Template.Home.HomeItemID);
+            Item homeItem = Sitecore.Context.Database.GetItem(HeaderFields.Template.Home.HomeItemID);
             Item userItem = tournamentService.GetCurrentUserItem();
-
-            // Add null checks
             string url = userItem != null ? Sitecore.Links.LinkManager.GetItemUrl(userItem) : null;
 
             var headerModel = new HeaderModel
@@ -30,8 +29,10 @@ namespace TourneyHub.Feature.Header.Controllers
 
             return View(headerModel);
         }
-
-
-
+        public ActionResult Logout()
+        {
+            AuthenticationManager.Logout();
+            return Json(new { success = true });
+        }
     }
 }

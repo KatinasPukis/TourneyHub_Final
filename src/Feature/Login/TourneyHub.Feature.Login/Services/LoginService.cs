@@ -18,10 +18,9 @@ namespace TourneyHub.Feature.Login.Services
     {
         public bool LogInUser(string username, string password)
         {
-            // Check if the username and password are not empty (add more validation as needed)
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                return false; // Invalid input
+                return false;
             }
 
             string accountName = string.Empty;
@@ -33,20 +32,17 @@ namespace TourneyHub.Feature.Login.Services
                 {
                     accountName = domain.GetFullName(username);
                 }
-
-                // Attempt to log in the user
                 if (AuthenticationManager.Login(accountName, password))
                 {
-                    return true; // Login successful
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging and error handling
-                // You may also consider rethrowing the exception for higher-level error handling
+
             }
 
-            return false; // Login failed
+            return false;
         }
         public Item GetCurrentUserItem()
         {
@@ -69,16 +65,15 @@ namespace TourneyHub.Feature.Login.Services
 
                     if (userFolder != null)
                     {
-                        // Use LINQ to simplify the search for the user item
                         Item currentUserItem = userFolder.Children
                             .FirstOrDefault(userItem => username == userItem.Fields[UserFields.Fields.UsernameFieldId].Value);
 
-                        return currentUserItem; // Return the found item if it exists
+                        return currentUserItem;
                     }
                 }
             }
 
-            return null; // Return null if no user item is found
+            return null;
         }
     }
 

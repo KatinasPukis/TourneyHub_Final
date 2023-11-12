@@ -9,6 +9,6 @@ namespace TourneyHub.Feature.Tournament.Models
     {
         public string Id { get; set; }
         public bool IsIndividual { get; set; }
-        public List<TournamentMatch> tournamentMatches { get; set; }
+        public List<TournamentStage> TournamentStages { get; set; }
     }
 }

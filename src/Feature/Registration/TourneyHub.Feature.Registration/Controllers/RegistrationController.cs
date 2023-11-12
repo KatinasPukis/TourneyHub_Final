@@ -22,10 +22,6 @@ namespace TourneyHub.Feature.Registration.Controllers
         {
             try
             {
-                // Perform any necessary validation on the input data here
-
-                // Assuming 'registrationService.RegisterUser' returns a RegistrationResult
-
                 UserViewModel userViewModel = new UserViewModel
                 {
                     Username = username,
@@ -39,12 +35,10 @@ namespace TourneyHub.Feature.Registration.Controllers
 
                 if (registrationResult == RegistrationResult.Success)
                 {
-                    // Successful registration
                     return Json(new { success = true, redirectUrl = "https://tourneyhub.sc/login" });
                 }
                 else
                 {
-                    // Handle the different registration result cases
                     if (registrationResult == RegistrationResult.UserExists)
                     {
                         return Json(new { success = false, message = "User already exists with the provided username or email." });
@@ -57,8 +51,6 @@ namespace TourneyHub.Feature.Registration.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging and error handling
-                // Handle any other exceptions as needed
                 return Json(new { success = false, message = "An error occurred while processing your request." });
             }
         }

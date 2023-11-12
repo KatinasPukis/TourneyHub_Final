@@ -22,21 +22,16 @@ namespace TourneyHub.Feature.Registration.Services
 
             try
             {
-                // Check if the user already exists
                 if (UserExists(userName))
                 {
                     return RegistrationResult.UserExists;
                 }
 
-                // TODO: Implement password encryption
-
                 Role role = Role.FromName(@"extranet\TourneyHubUser");
 
-                // Create a new user
                 Membership.CreateUser(userName, userViewModel.Password, userViewModel.Email);
                 Sitecore.Security.Accounts.User user = Sitecore.Security.Accounts.User.FromName(userName, true);
 
-                // Assign the user to the specified role
                 user.Roles.Add(role);
 
                 // Set user profile information
@@ -46,7 +41,6 @@ namespace TourneyHub.Feature.Registration.Services
                 userProfile.Comment = "TourneyHub User";
                 userProfile.Save();
 
-                // Create a user item under the Users folder
                 using (new SecurityDisabler())
                 {
 
@@ -73,7 +67,6 @@ namespace TourneyHub.Feature.Registration.Services
             }
             catch (Exception ex)
             {
-                // Log the error
                 Console.WriteLine(ex.Message);
                 Sitecore.Diagnostics.Log.Error($"Error during user registration: {ex.Message}", this);
                 return RegistrationResult.Error;
@@ -82,7 +75,6 @@ namespace TourneyHub.Feature.Registration.Services
 
         private bool UserExists(string userName)
         {
-            // Check if a user with the same username already exists
             return Sitecore.Security.Accounts.User.Exists(userName);
         }
     }

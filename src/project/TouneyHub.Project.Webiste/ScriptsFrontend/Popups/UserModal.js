@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     // When the "Edit" button is clicked, open the modal
     $('#editUserButton').click(function () {
-        var Id = $('.container').data('user-id'); // Get the participant ID from the data attribute
+        var Id = $('.card-body').data('user-id'); // Get the participant ID from the data attribute
         $('#editUserModal').data('user-id', Id); // Store the participant ID in the modal
         $('#editUserModal').modal('show');
     });
@@ -11,7 +11,7 @@
         var Id = $('#editUserModal').data('user-id');
 
         // Check if the Name and Age fields are valid
-        if ($('#editUserModal')[0].checkValidity()) {
+        if ($('#editUserForm')[0].checkValidity()) {
             // Create a FormData object to handle file uploads
             var formData = new FormData($('#editUserForm')[0]);
 
@@ -19,10 +19,11 @@
             formData.append('Id', Id);
 
             // Get the edited data from the form fields within the modal
-            formData.append('usernamne', $('#usernamne').val());
+            formData.append('name', $('#name').val());
             formData.append('surname', $('#surname').val());
             formData.append('email', $('#email').val());
             formData.append('password', $('#password').val());
+            formData.append('repeatpassword', $('#repeatpassword').val());
 
             // Send an AJAX request to the backend
             $.ajax({
@@ -33,9 +34,6 @@
                 contentType: false,
                 success: function (response) {
                     if (response.success) {
-                        // Handle success, e.g., show a success message
-                        alert(response.message);
-                        // Reload the page
                         window.location.reload();
                     } else {
                         // Handle the error, e.g., show an error message
@@ -49,7 +47,7 @@
             });
 
             // Close the modal after saving
-            $('#editTeamModal').modal('hide');
+            $('#editUserModal').modal('hide');
         } else {
             // Display an error message or take appropriate action if the form is invalid
         }
