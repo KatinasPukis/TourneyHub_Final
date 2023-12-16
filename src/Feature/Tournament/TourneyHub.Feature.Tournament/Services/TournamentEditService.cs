@@ -25,7 +25,6 @@ namespace TourneyHub.Feature.Tournament.Services
         private readonly Database _masterDb;
         public TournamentEditService()
         {
-            // Initialize the database in the constructor using a constant or configuration.
             _masterDb = Sitecore.Configuration.Factory.GetDatabase("master");
         }
 
@@ -33,22 +32,17 @@ namespace TourneyHub.Feature.Tournament.Services
         {
             if (participantData == null)
             {
-                // Handle the case where participantData is null
-                // You can log an error or return an error response
                 return;
             }
 
             HttpPostedFileBase imageFile = participantData.EditImage;
 
-            // Create or update the image item in Sitecore
             Item imageItem = CreateImageItem(imageFile);
 
             Item participantItem = _masterDb.GetItem(participantData.Id);
 
             if (participantItem == null)
             {
-                // Handle the case where the participant item doesn't exist
-                // You can log an error or return an error response
                 return;
             }
 
@@ -62,7 +56,6 @@ namespace TourneyHub.Feature.Tournament.Services
                     participantItem.Fields[TournamentFields.Templates.Participant.Fields.InformationFieldId].Value = participantData.Info;
                     participantItem.Fields[TournamentFields.Templates.Participant.Fields.AgeFieldId].Value = participantData.Age.ToString();
 
-                    // Set the value of the Image Field with the image item ID
                     ImageField imageField = (ImageField)participantItem.Fields[TournamentFields.Templates.Participant.Fields.ImageFieldId];
                     if (imageField != null && imageItem != null)
                     {
@@ -82,10 +75,8 @@ namespace TourneyHub.Feature.Tournament.Services
             {
                 if (imageFile != null)
                 {
-                    // Define the destination path
                     string destinationPath = "/sitecore/media library/Images";
 
-                    // Check if the folder already exists at the destination
                     Item existingFolder = _masterDb.GetItem(destinationPath);
                     string sanitizedFileName = Path.GetFileNameWithoutExtension(imageFile.FileName).Replace(".", "");
                     if (existingFolder != null)
@@ -96,16 +87,12 @@ namespace TourneyHub.Feature.Tournament.Services
 
                         if (existingMediaItem != null)
                         {
-                            // The media item with the same name already exists; return its URL
                             return existingMediaItem;
                         }
-
-                        // Append a unique identifier to the folder name
                         string uniqueName = sanitizedFileName;
                         destinationPath = destinationPath + "/" + uniqueName;
                     }
 
-                    // Create a media item in Sitecore for the uploaded image
                     MediaCreatorOptions options = new MediaCreatorOptions
                     {
                         Database = _masterDb, // Use the appropriate database
@@ -123,26 +110,22 @@ namespace TourneyHub.Feature.Tournament.Services
                     }
                     else
                     {
-                        // Handle the case where mediaItem is null
-                        // Log an error or return an error response
-                        return null; // You can choose how to handle this case
+                        return null;
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Handle the exception, log it, and return an error response
                 Console.WriteLine(ex.Message);
             }
 
-            return null; // Return null in case of any error or when imageFile is null
+            return null;
         }
 
         public void EditTournament(TournamentModel tournament)
         {
             if (tournament == null)
             {
-                // Handle the case where the 'tournament' parameter is null.
                 return;
             }
 
@@ -164,10 +147,7 @@ namespace TourneyHub.Feature.Tournament.Services
                     }
                 }
             }
-            else
-            {
-                // Handle the case where 'tournamentItem' is null.
-            }
+
         }
 
         private void SetDateTimeFieldValue(Item item, ID fieldId, DateTime? dateTimeValue)
@@ -181,23 +161,16 @@ namespace TourneyHub.Feature.Tournament.Services
 
             if (dateTimeField != null)
             {
-                // Set the DateTime value to the field
                 dateTimeField.Value = DateUtil.ToIsoDate((DateTime)dateTimeValue);
-            }
-            else
-            {
-                // Handle the case where 'dateTimeField' is null
             }
         }
 
 
 
-        public void EditUser(UserViewModel userModel)
+        public void EditUser(UserViewModel userModel, bool updatePassword)
         {
-            // Get the current user in Sitecore
             User currentUser = Sitecore.Context.User;
 
-            // Check if the user is authenticated
             if (currentUser.IsAuthenticated)
             {
                 Item userItem = _masterDb.GetItem(userModel.Id);
@@ -214,15 +187,17 @@ namespace TourneyHub.Feature.Tournament.Services
                             userItem[UserFields.Fields.EmailFieldId] = userModel.Email;
                             userItem.Editing.EndEdit();
 
-                            string newPassword = userModel.Password;
-
-                            MembershipUser membershipUser = Membership.GetUser(currentUser.Name);
-
-                            if (membershipUser != null)
+                            if (updatePassword)
                             {
-                                string oldPassword = membershipUser.ResetPassword();
+                                string newPassword = userModel.Password;
 
-                                membershipUser.ChangePassword(oldPassword, newPassword);
+                                MembershipUser membershipUser = Membership.GetUser(currentUser.Name);
+
+                                if (membershipUser != null)
+                                {
+                                    string oldPassword = membershipUser.ResetPassword();
+                                    membershipUser.ChangePassword(oldPassword, newPassword);
+                                }
                             }
                         }
                     }

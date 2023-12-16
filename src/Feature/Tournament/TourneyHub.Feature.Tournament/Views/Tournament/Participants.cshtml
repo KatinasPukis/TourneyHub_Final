@@ -54,6 +54,9 @@
                                 <td>@participant.Surname</td>
                                 <td>@participant.Age</td>
                                 <td>@participant.Info</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="removeParticipant('@participant.Id')">X</button>
+                                </td>
                             </tr>
                         }
                     </tbody>

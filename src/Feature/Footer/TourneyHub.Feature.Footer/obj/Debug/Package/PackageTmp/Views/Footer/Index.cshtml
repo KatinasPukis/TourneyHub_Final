@@ -1,0 +1,54 @@
+﻿@using Sitecore.Mvc
+@using Sitecore.Data.Items
+@using Sitecore.Data.Fields
+
+@model TourneyHub.Feature.Footer.Models.FooterModel
+
+<div class="root">
+    <footer class="site-footer bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>About</h6>
+                    <p class="text-justify">TourneyHub Is A Tournament Creation Website</p>
+                </div>
+
+                @foreach (Item child in Model.Links)
+                {
+                    <div class="col-md-4">
+                        <h4>@child.Name</h4>
+                        <ul class="list-unstyled">
+                            @foreach (Item item in child.Children)
+                            {
+                                <li>
+                                    <a class="text-white" href="@(((LinkField)item.Fields["Link"]).GetFriendlyUrl())">@item.DisplayName</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <div class="col-md-4">
+                    @foreach (Item child in Model.Images)
+                    {
+                        foreach (Item item in child.Children)
+                        {
+                            @Html.Sitecore().Field("Image", item)
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <hr class="small" />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="copyright-text">
+                        Copyright &copy; 2023 All Rights Reserved by
+                        <a class="text-white" href="#">Dominykas Pleteras</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

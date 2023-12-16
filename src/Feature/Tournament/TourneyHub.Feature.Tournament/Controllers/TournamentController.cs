@@ -144,14 +144,22 @@ namespace TourneyHub.Feature.Tournament.Controllers
         {
             try
             {
-                if (user != null && user.Password == user.RepeatPassword)
+                if (user != null)
                 {
-                    tournamentEditService.EditUser(user);
+                    if (!string.IsNullOrEmpty(user.Password) && user.Password == user.RepeatPassword)
+                    {
+                        tournamentEditService.EditUser(user, updatePassword: true);
+                    }
+                    else
+                    {
+                        tournamentEditService.EditUser(user, updatePassword: false);
+                    }
+
                     return Json(new { success = true, message = "Changes saved" });
                 }
                 else
                 {
-                    return Json(new { success = false, message = "Passwords do not match" });
+                    return Json(new { success = false, message = "Invalid user data" });
                 }
             }
             catch (Exception ex)

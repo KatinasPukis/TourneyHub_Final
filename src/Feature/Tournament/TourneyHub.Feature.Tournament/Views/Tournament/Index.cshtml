@@ -3,127 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .card {
-            margin-bottom: 36px;
-        }
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Tournament Form</title>
 
-        h3 {
-            text-align: center;
-        }
-
-        .step-indicator {
-            list-style-type: none;
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-            .step-indicator li {
-                width: 20px;
-                height: 20px;
-                background-color: #ccc;
-                border-radius: 50%;
-                margin: 0 10px;
-            }
-
-            .step-indicator .active {
-                background-color: #007bff; /* Color for active step */
-            }
-
-.col-md-6 {
-    -ms-flex: 0 0 50%;
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-    </style>
-    <title>Multi-Step Form</title>
 </head>
 <body>
     <div class="container mt-5">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <form id="multiStepForm">
-                            <div class="form-step" data-step="1">
-                                <h3>Step 1: Tournament Generation Questions</h3>
-                                <div class="mb-3">
-                                    <label>Choose Tournament Format:</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="knockoutsBracketRadio" name="tournamentFormat" value="Knockouts Bracket" required>
-                                        <label class="form-check-label" for="knockoutsBracketRadio">Knockouts Bracket</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="doubleEliminationRadio" name="tournamentFormat" value="Double-Elimination Bracket" required disabled>
-                                        <label class="form-check-label" for="doubleEliminationRadio">Double-Elimination Bracket</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="roundRobinRadio" name="tournamentFormat" value="Round-robin League" required disabled>
-                                        <label class="form-check-label" for="roundRobinRadio">Round-robin League</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="multiStageRadio" name="tournamentFormat" value="Multistage: Round-robin Groups + Knockouts Brackets" required disabled>
-                                        <label class="form-check-label" for="multiStageRadio">Multistage: Round-robin Groups + Knockouts Brackets</label>
-                                    </div>
+                    <div class="col-md-6 mx-auto">
+                        <form id="tournamentForm" action="#" method="post" novalidate>
+                            <h3 class="mb-4">Tournament Generation</h3>
 
-                                </div>
-                                <!-- Tournament Name Input Fields -->
-                                <div class="mb-3">
-                                    <label for="sportName">Sport Name:</label>
-                                    <input type="text" class="form-control" id="sportName" name="sportName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="tournamentName">Tournament Name:</label>
-                                    <input type="text" class="form-control" id="tournamentName" name="tournamentName" required>
-                                </div>
-                                <button class="btn btn-primary next-step" data-step="2">Next</button>
+                            <!-- Step 1: Enter Tournament Name -->
+                            <div class="form-group">
+                                <label for="tournamentName">Tournament Name:</label>
+                                <input type="text" class="form-control" id="tournamentName" name="tournamentName" required>
                             </div>
 
-                            <div class="form-step" data-step="2">
-                                <h3>Step 2: Tournament Details</h3>
-                                <div class="mb-3">
-                                    <label>Choose Tournament Type:</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="individualRadio" name="tournamentType" value="Individual" required>
-                                        <label class="form-check-label" for="individualRadio">Individual</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="teamRadio" name="tournamentType" value="Team" required>
-                                        <label class="form-check-label" for="teamRadio">Team</label>
-                                    </div>
+                            <!-- Step 2: Enter Sport Name -->
+                            <div class="form-group">
+                                <label for="sportName">Sport Name:</label>
+                                <input type="text" class="form-control" id="sportName" name="sportName" required>
+                            </div>
+
+                            <!-- Step 3: Choose Tournament Format -->
+                            <div class="form-group">
+                                <label for="tournamentFormat">Choose Tournament Format:</label>
+                                <select class="form-control" id="tournamentFormat" name="tournamentFormat" required>
+                                    <option value="" selected disabled>Select Tournament Format</option>
+                                    <option value="Knockouts Bracket">Knockouts Bracket</option>
+                                    <option value="Double-Elimination Bracket" disabled>Double-Elimination Bracket</option>
+                                    <option value="Round-robin League" disabled>Round-robin League</option>
+                                    <option value="Multistage: Round-robin Groups + Knockouts Brackets" disabled>Multistage: Round-robin Groups + Knockouts Brackets</option>
+                                </select>
+                            </div>
+                            <!-- Step 4: Choose Tournament Type -->
+                            <div class="form-group">
+                                <label>Choose Tournament Type:</label>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="individualRadio" name="tournamentType" value="Individual" required>
+                                    <label class="form-check-label" for="individualRadio">Individual</label>
                                 </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="teamRadio" name="tournamentType" value="Team" required>
+                                    <label class="form-check-label" for="teamRadio">Team</label>
+                                </div>
+
                                 <!-- Participants or Teams section -->
-                                <div class="mb-3" id="participantsOrTeamsSection">
+                                <div class="mt-3" id="participantsOrTeamsSection">
                                     <!-- Number of Participants for Individual -->
                                     <div id="individualParticipants" style="display: none">
                                         <label for="numOfParticipants">Number of Participants:</label>
-                                        <select class="form-select" id="numOfParticipants" name="NumberOfParticipants" required>
+                                        <select class="form-control" id="numOfParticipants" name="NumberOfParticipants" required>
                                             <option value="" selected disabled>Select Number of Participants</option>
-                                            <option value="4">4</option>
-                                            <option value="8">8</option>
-                                            <option value="16">16</option>
-                                            <option value="32">32</option>
-                                            <option value="64">64</option>
-                                        </select>
-                                    </div>
-                                    <!-- Number of Teams and Members per Team for Team Type -->
-                                    <div id="teamSelection" style="display: none">
-                                        <label for="numOfTeams">Number of Teams:</label>
-                                        <select class="form-select" id="numOfTeams" name="NumberOfTeams" required>
-                                            <option value="" selected disabled>Select Number of Teams</option>
-                                            <option value="4">4</option>
-                                            <option value="8">8</option>
-                                            <option value="16">16</option>
-                                            <option value="32">32</option>
-                                            <option value="64">64</option>
-                                        </select>
-                                        <label for="numOfMembersPerTeam">Number of Members per Team:</label>
-                                        <select class="form-select" id="numOfMembersPerTeam" name="NumberOfMembersPerTeam" required>
-                                            <option value="" selected disabled>Select Number of Members per Team</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
                                             <option value="4">4</option>
                                             <option value="5">5</option>
                                             <option value="6">6</option>
@@ -131,18 +65,104 @@
                                             <option value="8">8</option>
                                             <option value="9">9</option>
                                             <option value="10">10</option>
-                                            <!-- Add more options as needed -->
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="32">32</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Number of Teams and Members per Team for Team Type -->
+                                    <div id="teamSelection" style="display: none">
+                                        <label for="numOfTeams">Number of Teams:</label>
+                                        <select class="form-control" id="numOfTeams" name="NumberOfTeams" required>
+                                            <option value="" selected disabled>Select Number of Teams</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="32">32</option>
+                                        </select>
+                                        <label for="numOfMembersPerTeam">Number of Members per Team:</label>
+                                        <select class="form-control" id="numOfMembersPerTeam" name="NumberOfMembersPerTeam" required>
+                                            <option value="" selected disabled>Select Number of Members per Team</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="32">32</option>
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary prev-step" data-step="1">Previous</button>
-                                <button type="submit" class="btn btn-success" id="submitForm">Submit</button>
                             </div>
 
-                            <ul class="step-indicator">
-                                <li class="active"></li>
-                                <li></li>
-                            </ul>
+                            <button type="submit" class="btn btn-success" id="submitForm">Submit</button>
                         </form>
                     </div>
                 </div>

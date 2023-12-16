@@ -465,46 +465,59 @@ namespace TourneyHub.Feature.Tournament.Services
         {
             matchItem.Editing.BeginEdit();
             matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.WinnerFieldId].Value = matchResultModel.WinnerId;
-            if (matchItem != null)
-            {
-                using (new SecurityDisabler())
-                {
-                    using (new EditContext(matchItem))
-                    {
-                        TemplateItem template = _masterDb.GetTemplate(TournamentFields.Templates.Score.ID);
-                        int temp = 0;
-                        try
-                        {
-                            foreach (MatchScores item in matchResultModel.Scores)
-                            {
-                                foreach (var scores in item.Scores)
-                                {
-                                    temp++;
-                                    Item participantItem = _masterDb.GetItem(item.ParticipantId);
-                                    string participantName = GetParticipant(participantItem).Name;
-                                    string matchName = "Score " + participantName + " " + temp;
-                                    Item scoreItem = matchItem.Add(matchName, template);
 
+            using (new SecurityDisabler())
+            {
+                using (new EditContext(matchItem))
+                {
+                    TemplateItem template = _masterDb.GetTemplate(TournamentFields.Templates.Score.ID);
+                    int temp = 0;
+
+                    try
+                    {
+                        foreach (MatchScores item in matchResultModel.Scores)
+                        {
+                            foreach (var scores in item.Scores)
+                            {
+                                temp++;
+                                Item participantItem = _masterDb.GetItem(item.ParticipantId);
+                                string participantName = GetParticipant(participantItem).Name;
+                                string matchName = "Score " + participantName + " " + temp;
+
+                                // Check if the item already exists
+                                Item existingScoreItem = matchItem.Children[matchName];
+
+                                if (existingScoreItem != null)
+                                {
+                                    // Item already exists, update its fields
+                                    existingScoreItem.Editing.BeginEdit();
+                                    existingScoreItem.Fields[TournamentFields.Templates.Score.Fields.ParticipantFieldId].Value = participantItem.ID.ToString();
+                                    existingScoreItem.Fields[TournamentFields.Templates.Score.Fields.ScoreFieldId].Value = scores.ToString();
+                                    existingScoreItem.Editing.EndEdit();
+                                }
+                                else
+                                {
+                                    // Item does not exist, create a new one
+                                    Item scoreItem = matchItem.Add(matchName, template);
                                     scoreItem.Editing.BeginEdit();
                                     scoreItem.Fields[TournamentFields.Templates.Score.Fields.ParticipantFieldId].Value = participantItem.ID.ToString();
                                     scoreItem.Fields[TournamentFields.Templates.Score.Fields.ScoreFieldId].Value = scores.ToString();
                                     scoreItem.Editing.EndEdit();
-
                                 }
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
 
-
             matchItem.Editing.EndEdit();
             return null;
         }
+
 
         private void CreateTournamentParticipants(TournamentFormData tournamentFormData, Item parentTournamentItem)
         {

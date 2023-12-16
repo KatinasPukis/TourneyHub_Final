@@ -26,26 +26,19 @@
 </head>
 <body>
     <div class="container mt-5">
-
-        <!-- Card for User Information -->
         <div class="card" data-participant-id="@Model.Id">
             <div class="card-body">
-                <!-- Edit Button (inside user profile div) -->
                 <button id="editButton" class="btn btn-primary float-right">Edit</button>
 
                 <div class="row">
                     <div class="col-md-4 text-center">
-                        <!-- User Profile Picture -->
                         <img src="@Model.Image" alt="User's Profile Picture" class="img-fluid rounded-circle">
                     </div>
                     <div class="col-md-8">
-                        <!-- User Information -->
                         <h1>@Model.Name @Model.Surname</h1>
                         <p>Age: @Model.Age</p>
                     </div>
                 </div>
-
-                <!-- User's Details -->
                 <h2 class="mt-4">User Info</h2>
                 <p>@Model.Info</p>
             </div>
@@ -62,7 +55,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Fields to edit go here -->
                         <form id="editForm" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="name">Name</label>
