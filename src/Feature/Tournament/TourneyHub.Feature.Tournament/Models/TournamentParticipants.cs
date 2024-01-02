@@ -7,6 +7,7 @@ namespace TourneyHub.Feature.Tournament.Models
 {
     public class TournamentParticipants
     {
+        public string TournamentId { get; set; }
         public List<TournamentParticipant> Participants { get; set; }
         public List<TournamentTeam> Teams { get; set; }
     }

@@ -44,6 +44,9 @@
                             <th>Surname</th>
                             <th>Age</th>
                             <th>Info</th>
+                            <th>
+                                <button type="button" class="btn btn-primary" onclick="addParticipantBtn('@Model.TournamentId')">Add Participant</button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,6 +75,9 @@
                             <th>Team Name</th>
                             <th>Team Description</th>
                             <th>Logo</th>
+                            <th>
+                                <button type="button" class="btn btn-primary" onclick="addTeamBtn('@Model.TournamentId')">Add Team</button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,6 +89,9 @@
                                 <td>
                                     <img src="@team.LogoUrl" alt="@team.TeamName Logo" class="team-logo">
                                 </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="removeTeam('@team.Id')">X</button>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -92,3 +101,69 @@
     </body>
 }
 </html>
+<script>
+
+    function removeParticipant(participantId) {
+        var confirmation = confirm("Are you sure you want to delete the selected participant?");
+
+        if (confirmation) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/sitecore/Tournament/DeleteParticipant',
+                data: { participantId: participantId },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error removing participant:', error);
+                }
+            });
+        }
+    }
+
+    function removeTeam(teamId) {
+        var confirmation = confirm("Are you sure you want to delete the selected team ?");
+
+        if (confirmation) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/sitecore/Tournament/DeleteTeam',
+                data: { teamId: teamId },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error removing team:', error);
+                }
+            });
+        }
+    }
+
+    function addParticipantBtn(TournamentId) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/sitecore/Tournament/AddParticipant',
+            data: { TournamentId: TournamentId },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                console.error('Error adding participant:', error);
+            }
+        });
+    }
+
+    function addTeamBtn(TournamentId) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/sitecore/Tournament/AddTeam',
+            data: { TournamentId: TournamentId },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                console.error('Error adding team:', error);
+            }
+        });
+    }
+</script>

@@ -29,6 +29,9 @@
             top: 10px;
             right: 10px;
         }
+        th, td {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +62,9 @@
                     <th>Surname</th>
                     <th>Age</th>
                     <th>Info</th>
+                    <th>
+                        <button type="button" class="btn btn-primary" onclick="addParticipantToTeamBtn('@Model.Id')">Add Participant</button>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -69,6 +75,9 @@
                         <td>@participant.Surname</td>
                         <td>@participant.Age</td>
                         <td>@participant.Info</td>
+                        <td>
+                            <button type="button" class="btn btn-danger" onclick="removeParticipant('@participant.Id')">X</button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -112,3 +121,35 @@
 
 </body>
 </html>
+<script>
+    function removeParticipant(participantId) {
+        var confirmation = confirm("Are you sure you want to delete the selected participant?");
+
+        if (confirmation) {
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/sitecore/Tournament/DeleteParticipant',
+                data: { participantId: participantId },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error removing participant:', error);
+                }
+            });
+        }
+    }
+    function addParticipantToTeamBtn(teamItemId) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/sitecore/Tournament/AddParticipantToTeam',
+            data: { teamItemId: teamItemId },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                console.error('Error adding participant:', error);
+            }
+        });
+    }
+</script>

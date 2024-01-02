@@ -144,6 +144,8 @@
     <Compile Include="Models\MatchScores.cs" />
     <Compile Include="Models\NavigationModel.cs" />
     <Compile Include="Models\ParticipantScore.cs" />
+    <Compile Include="Models\TournamentCalendar.cs" />
+    <Compile Include="Models\TournamentCalendarEntry.cs" />
     <Compile Include="Models\TournamentFormat.cs" />
     <Compile Include="Models\TournamentMatch.cs" />
     <Compile Include="Models\TournamentMatches.cs" />
@@ -167,6 +169,9 @@
     <Content Include="Views\Tournament\Team.cshtml" />
     <Content Include="Views\Tournament\Matches.cshtml" />
     <Content Include="Views\Navigation\Index.cshtml" />
+    <Content Include="Views\Tournament\Matches-v2.cshtml" />
+    <Content Include="Views\Tournament\Calendar.cshtml" />
+    <Content Include="Views\Tournament\Statistics.cshtml" />
     <None Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

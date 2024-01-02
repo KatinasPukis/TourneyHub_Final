@@ -24,7 +24,7 @@ namespace TourneyHub.Feature.Tournament.Controllers
         public ActionResult Overview()
         {
             List<TournamentModel> tournamentModels = tournamentService.GetTournaments();
-
+            tournamentModels = tournamentModels.OrderBy(t => t.StartDate).ToList();
             UserViewModel userData = tournamentService.GetUserData();
 
             TournamentOverview tournamentOverview = new TournamentOverview
@@ -71,6 +71,30 @@ namespace TourneyHub.Feature.Tournament.Controllers
             {
                 TournamentTeam tournamentTeam = tournamentService.GetTournamentTeam(rendering.Item);
                 return View(tournamentTeam);
+            }
+
+            return View();
+        }
+        public ActionResult Calendar()
+        {
+            Rendering rendering = RenderingContext.Current.Rendering;
+
+            if (rendering.Item != null)
+            {
+                TournamentCalendar tournamentCalendar = tournamentService.GetTournamentCalendar(rendering.Item);
+                return View(tournamentCalendar);
+            }
+
+            return View();
+        }
+        public ActionResult Statistics()
+        {
+            Rendering rendering = RenderingContext.Current.Rendering;
+
+            if (rendering.Item != null)
+            {
+                //TournamentTeam tournamentTeam = tournamentService.GetTournamentTeam(rendering.Item);
+                //return View(tournamentTeam);
             }
 
             return View();
@@ -178,16 +202,17 @@ namespace TourneyHub.Feature.Tournament.Controllers
             }
             catch (Exception ex)
             {
-               
+
                 Console.WriteLine(ex.Message);
                 return Json(new { success = false, message = "There was a problem deleting the tournament" });
             }
         }
+        [HttpDelete]
         public ActionResult DeleteTournament(string tournamentId = null)
         {
             try
             {
-                tournamentEditService.DeleteTournament(tournamentId);
+                tournamentEditService.DeleteItem(tournamentId);
                 return Json(new { success = true, message = "Tournament Deleted" });
             }
             catch (Exception ex)
@@ -196,6 +221,21 @@ namespace TourneyHub.Feature.Tournament.Controllers
                 return Json(new { success = false, message = "There was a problem deleting the tournament" });
             }
         }
+        [HttpDelete]
+        public ActionResult DeleteCalendarEntry(string entryId = null)
+        {
+            try
+            {
+                tournamentEditService.DeleteItem(entryId);
+                return Json(new { success = true, message = "Calendar entry Deleted" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem deleting the calendar entry" });
+            }
+        }
+
         [HttpGet]
         public JsonResult GetParticipantMatchData(string matchId)
         {
@@ -228,7 +268,7 @@ namespace TourneyHub.Feature.Tournament.Controllers
         {
             try
             {
-               
+
                 TournamentMatch match = tournamentService.GetMatchData(matchId);
                 List<ParticipantScore> scores = tournamentService.GetScoresForMatch(matchId);
 
@@ -289,6 +329,104 @@ namespace TourneyHub.Feature.Tournament.Controllers
             {
                 Console.WriteLine(ex.Message);
                 return Json(new { success = false, message = "There was a problem saving your match data" });
+            }
+        }
+        [HttpPost]
+        public ActionResult AddParticipant(string tournamentId = null)
+        {
+            try
+            {
+                tournamentEditService.AddNewParticipantToTournament(tournamentId);
+                return Json(new { success = true, message = "Participant Created" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem adding a new participant" });
+            }
+        }
+        [HttpPost]
+        public ActionResult AddParticipantToTeam(string teamItemId = null)
+        {
+            try
+            {
+                tournamentEditService.AddNewParticipantToTeam(teamItemId);
+                return Json(new { success = true, message = "Participant Created" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem adding a new participant to the team" });
+            }
+        }
+        [HttpPost]
+        public ActionResult AddTeam(string tournamentId = null)
+        {
+            try
+            {
+                tournamentEditService.AddNewTeamtToTournament(tournamentId);
+                return Json(new { success = true, message = "Team Created" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem adding a new team" });
+            }
+        }
+        [HttpPost]
+        public ActionResult AddSchedule(string matchId, DateTime matchDate, string matchLocation, string matchReferee)
+        {
+            try
+            {
+                tournamentService.AddNewSchedule(matchId,matchDate, matchLocation, matchReferee);
+                return Json(new { success = true, message = "Schedule Created" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem adding a schedule to the tournament" });
+            }
+        }
+        [HttpGet]
+        public ActionResult GetSchedule(string matchId, DateTime matchDate, string matchLocation, string matchReferee)
+        {
+            try
+            {
+                tournamentService.AddNewSchedule(matchId,matchDate, matchLocation, matchReferee);
+                return Json(new { success = true, message = "Schedule Created" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem adding a schedule to the tournament" });
+            }
+        }
+        [HttpDelete]
+        public ActionResult DeleteParticipant(string participantId = null)
+        {
+            try
+            {
+                tournamentEditService.DeleteItem(participantId);
+                return Json(new { success = true, message = "Participant Deleted" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem deleting the participant" });
+            }
+        }
+        [HttpDelete]
+        public ActionResult DeleteTeam(string teamId = null)
+        {
+            try
+            {
+                tournamentEditService.DeleteItem(teamId);
+                return Json(new { success = true, message = "Team Deleted" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { success = false, message = "There was a problem deleting the team" });
             }
         }
 

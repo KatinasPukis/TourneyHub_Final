@@ -107,6 +107,31 @@ namespace TourneyHub.Feature.Tournament.Fields
 
                 }
             }
+            public static class Calendar
+            {
+                public static readonly ID ID = new ID("{9569D34A-76AD-41BB-A39D-653F633E4E7F}");
+
+                public static class Fields
+                {
+                    public static readonly ID TournamentFieldId = new ID("{5C8E5D3C-D5AB-43CE-BBA8-C52DAD82FB3E}");
+
+                }
+            }
+            public static class CalendarEntry
+            {
+                public static readonly ID ID = new ID("{CA500157-5D78-4B2B-850B-188EDE4E3D6E}");
+
+                public static class Fields
+                {
+                    public static readonly ID TournamentMatchFieldId = new ID("{63FB6A4D-53B7-4D1D-8731-D5A873832CA4}");
+                    public static readonly ID MatchDateFieldId = new ID("{71368B66-0AA4-41B6-A8D8-7E29128E4A96}");
+                    public static readonly ID MatchLocationFieldId = new ID("{D5108358-2F04-471C-8649-FB60A49683B1}");
+                    public static readonly ID MatchRefereeFieldId = new ID("{B09BBCAE-D628-4C7B-A186-66F6B1968CE0}");
+                    public static readonly ID FirstParticipantFieldId = new ID("{36FB6C8E-3E1B-4CED-B908-F85AE6EBD7EC}");
+                    public static readonly ID SecondParticipantFieldId = new ID("{57E0F3C4-5D21-4743-81B7-0EDFE9B31FE8}");
+
+                }
+            }
             public static class TournamentMatches
             {
                 public static readonly ID ID = new ID("{F5843129-BB5F-4C87-86E0-2EA1234698A7}");

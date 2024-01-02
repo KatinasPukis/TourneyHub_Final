@@ -8,6 +8,7 @@ namespace TourneyHub.Feature.Tournament.Models
     public class TournamentMatch
     {
         public string Id { get; set; }
+        public string MatchName { get; set; }
         public TournamentParticipant FirstParticipant { get; set; }
         public TournamentParticipant SecondParticipant { get; set; }
         public TournamentTeam FirstTeam { get; set; }

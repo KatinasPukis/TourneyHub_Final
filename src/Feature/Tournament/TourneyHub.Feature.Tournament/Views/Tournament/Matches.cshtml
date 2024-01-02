@@ -6,21 +6,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
     <style>
         .tournament-stage {
-            border: 1px solid #555;
+            border: 2px solid black;
             padding: 10px;
             margin-bottom: 20px;
             background-color: rgba(0,0,0,.05);
             color: black;
+            border-radius: 10px;
         }
 
         .participant-match {
-            display: flex;
+            /*display: flex;*/
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #ccc;
+            border: 2px solid #ccc;
             margin: 10px 0;
             padding: 10px;
             cursor: pointer;
@@ -28,21 +29,24 @@
             background-color: white;
         }
 
+
+
         .team-match {
-            display: flex;
+            /*display: flex;*/
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #ccc;
-            margin: 5px 0;
+            border: 2px solid #00000059;
+            margin: 10px 0;
             padding: 5px;
             cursor: pointer;
+            text-align: center;
         }
 
-        .bracket-line {
-            width: 2px;
-            border: 1px solid #ccc;
-            height: 100%;
-            margin: 0 10px;
+        .participant {
+            border: 1px solid;
+            border-radius: 10px;
+            margin: 5px;
+            background-color: cornsilk;
         }
 
         .stage-title {
@@ -51,6 +55,7 @@
         }
 
         /* Adjust button size */
+        .data-button,
         .edit-button,
         .delete-result {
             padding: 5px;
@@ -58,14 +63,11 @@
         }
     </style>
 
-    </style>
 
 
 
 </head>
-@{
-    //int roundCount = Model.tournamentMatches.Count * 2;
-}
+
 <body>
     <div class="container">
         <div class="row">
@@ -79,16 +81,21 @@
                             foreach (TournamentMatch match in stage.TournamentMatches)
                             {
                                 <div class="participant-match" data-participant-match-id="@match.Id">
+                                    <h4>@match.MatchName</h4>
+                                    <hr />
+                                    <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
+                                        <i class="fa-solid fa-bars"></i>
+                                    </button>
                                     <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#participantModal">
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger delete-result">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
+                                    <hr />
                                     <div class="participant" data-participant-id="@((match.FirstParticipant != null) ? match.FirstParticipant.Id : null)" data-participant-type="first">
                                         @(match.FirstParticipant == null ? "TBD" : match.FirstParticipant.Name)
                                     </div>
-                                    <div class="bracket-line"></div>
                                     <div class="participant" data-participant-id="@((match.SecondParticipant != null) ? match.SecondParticipant.Id : null)" data-participant-type="second">
                                         @(match.SecondParticipant == null ? "TBD" : match.SecondParticipant.Name)
                                     </div>
@@ -100,16 +107,21 @@
                             foreach (TournamentMatch match in stage.TournamentMatches)
                             {
                                 <div class="team-match" data-team-match-id="@match.Id">
+                                    <h4>@match.MatchName</h4>
+                                    <hr />
+                                    <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
+                                        <i class="fa-solid fa-bars"></i>
+                                    </button>
                                     <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#teamModal">
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
                                     <button type="button" class="btn btn-danger delete-result">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
+                                    <hr />
                                     <div class="participant" data-participant-id="@((match.FirstTeam != null) ? match.FirstTeam.Id : null)" data-participant-type="first">
                                         @(match.FirstTeam == null ? "TBD" : match.FirstTeam.TeamName)
                                     </div>
-                                    <div class="bracket-line"></div>
                                     <div class="participant" data-participant-id="@((match.SecondTeam != null) ? match.SecondTeam.Id : null)" data-participant-type="second">
                                         @(match.SecondParticipant == null ? "TBD" : match.SecondTeam.TeamName)
                                     </div>
@@ -119,6 +131,37 @@
                     </div>
                 </div>
             }
+        </div>
+    </div>
+    <!-- Data Modal -->
+    <div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true" data-match-id>
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dataModal">Match Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="matchDate">Match Date and Time</label>
+                        <input type="datetime-local" class="form-control" id="matchDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="matchLocation">Match Location:</label>
+                        <input type="text" class="form-control" id="matchLocation" placeholder="Enter location">
+                    </div>
+                    <div class="form-group">
+                        <label for="matchReferee">Match Referee:</label>
+                        <input type="text" class="form-control" id="matchReferee" placeholder="Enter referee">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -223,3 +266,80 @@
     }
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        $('.participant[data-participant-id]').hover(
+            function () {
+                var participantId = $(this).data('participant-id');
+                $('.participant[data-participant-id="' + participantId + '"]').css('background-color', '#c8e6c9');
+            },
+            function () {
+                var participantId = $(this).data('participant-id');
+                $('.participant[data-participant-id="' + participantId + '"]').css('background-color', 'cornsilk');
+            }
+        );
+
+        $('.team-match').hover(
+            function () {
+                var participantId = $(this).find('.participant').data('participant-id');
+                $('.participant[data-participant-id="' + participantId + '"]').css('background-color', '#c8e6c9');
+            },
+            function () {
+                var participantId = $(this).find('.participant').data('participant-id');
+                $('.participant[data-participant-id="' + participantId + '"]').css('background-color', 'cornsilk');
+            }
+        );
+        //Schedule popup participant case to add in id for match
+        $('.participant-match #data-button').click(function () {
+            var matchId = $(this).closest('.participant-match').data('participant-match-id');
+
+            var modal = $('#dataModal');
+            modal.attr('data-match-id', matchId);
+            $('#dataModal').modal('show');
+        });
+         //Schedule popup team case to add in id for match
+        $('.team-match #data-button').click(function () {
+            var matchId = $(this).closest('.team-match').data('team-match-id');
+            var modal = $('#dataModal');
+            modal.attr('data-match-id', matchId);
+            $('#dataModal').modal('show');
+        });
+
+        // Handle click on the close button in participant-modal
+        $('#dataModal .close-modal-button').click(function () {
+            $('#dataModal').modal('hide');
+        });
+
+        $('#dataModal .btn-primary').click(function () {
+            // Get data from the form
+            var matchId = $('#dataModal').attr('data-match-id');
+            var matchDate = $('#matchDate').val();
+            var matchLocation = $('#matchLocation').val();
+            var matchReferee = $('#matchReferee').val();
+            console.log("Atejo i data schedule");
+            // Make AJAX call
+            $.ajax({
+                type: 'POST',
+                url: '/api/sitecore/Tournament/AddSchedule',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    MatchId: matchId,
+                    MatchDate: matchDate,
+                    MatchLocation: matchLocation,
+                    MatchReferee: matchReferee
+                }),
+                success: function (result) {
+                    // Handle success response
+                    console.log(result);
+                    // Optionally, close the modal or perform other actions
+                    $('#dataModal').modal('hide');
+                },
+                error: function (error) {
+                    // Handle error response
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+</script>

@@ -205,9 +205,7 @@ namespace TourneyHub.Feature.Tournament.Services
             }
         }
 
-
-
-        public void DeleteTournament(string id)
+        public void DeleteItem(string id)
         {
             try
             {
@@ -223,7 +221,26 @@ namespace TourneyHub.Feature.Tournament.Services
             }
             catch (Exception ex)
             {
-                Sitecore.Diagnostics.Log.Error("Error deleting tournament: " + ex.Message, this);
+                Sitecore.Diagnostics.Log.Error("Error deleting item: " + ex.Message, this);
+            }
+        }
+        public void DeleteParticipant(string id)
+        {
+            try
+            {
+                Item itemToDelete = Sitecore.Context.Database.GetItem(new ID(id));
+
+                if (itemToDelete != null)
+                {
+                    using (new SecurityDisabler())
+                    {
+                        itemToDelete.Delete();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Sitecore.Diagnostics.Log.Error("Error deleting participant: " + ex.Message, this);
             }
         }
 
@@ -329,5 +346,126 @@ namespace TourneyHub.Feature.Tournament.Services
                 }
             }
         }
+        public void AddNewParticipantToTournament(string tournamentId)
+        {
+            if (string.IsNullOrEmpty(tournamentId))
+            {
+                return;
+            }
+
+            Item tournamentItem = _masterDb.GetItem(tournamentId);
+
+            if (tournamentItem == null)
+            {
+                return;
+            }
+
+            Item participantsFolderItem = tournamentItem.Children
+                .FirstOrDefault(child => child.TemplateID == TournamentFields.Templates.Participants.ID);
+
+            TemplateItem participantTemplate = _masterDb.GetTemplate(TournamentFields.Templates.Participant.ID);
+
+            string participantsItemName = GetUniqueItemName("Participant", participantsFolderItem);
+
+            Item participantItem = participantsFolderItem.Add(participantsItemName, participantTemplate);
+
+            using (new SecurityDisabler())
+            {
+                using (new EditContext(participantItem))
+                {
+                    participantItem.Editing.BeginEdit();
+
+                    participantItem.Fields[TournamentFields.Templates.Participant.Fields.NameFieldId].Value = participantsItemName;
+
+                    participantItem.Editing.EndEdit();
+                }
+            }
+        }
+        public void AddNewParticipantToTeam(string teamItemId)
+        {
+            if (string.IsNullOrEmpty(teamItemId))
+            {
+                return;
+            }
+
+            Item teamItem = _masterDb.GetItem(teamItemId);
+
+            if (teamItem == null)
+            {
+                return;
+            }
+
+
+            TemplateItem participantTemplate = _masterDb.GetTemplate(TournamentFields.Templates.Participant.ID);
+
+            string participantsItemName = GetUniqueItemName("Participant", teamItem);
+
+            Item participantItem = teamItem.Add(participantsItemName, participantTemplate);
+
+            using (new SecurityDisabler())
+            {
+                using (new EditContext(participantItem))
+                {
+                    participantItem.Editing.BeginEdit();
+
+                    participantItem.Fields[TournamentFields.Templates.Participant.Fields.NameFieldId].Value = participantsItemName;
+
+                    participantItem.Editing.EndEdit();
+                }
+            }
+        }
+        public void AddNewTeamtToTournament(string tournamentId)
+        {
+            if (string.IsNullOrEmpty(tournamentId))
+            {
+                return;
+            }
+
+            Item tournamentItem = _masterDb.GetItem(tournamentId);
+
+            if (tournamentItem == null)
+            {
+                return;
+            }
+
+            Item participantsFolderItem = tournamentItem.Children
+                .FirstOrDefault(child => child.TemplateID == TournamentFields.Templates.Participants.ID);
+
+            TemplateItem teamItemTemplate = _masterDb.GetTemplate(TournamentFields.Templates.TournamentTeam.ID);
+
+            string teamItemName = GetUniqueItemName("Team", participantsFolderItem);
+
+            Item teamItem = participantsFolderItem.Add(teamItemName, teamItemTemplate);
+
+            using (new SecurityDisabler())
+            {
+                using (new EditContext(teamItem))
+                {
+                    teamItem.Editing.BeginEdit();
+
+                    teamItem.Fields[TournamentFields.Templates.TournamentTeam.Fields.TeamNameFieldId].Value = teamItemName;
+
+                    teamItem.Editing.EndEdit();
+                }
+            }
+        }
+        public string GetUniqueItemName(string baseName, Item parentItem)
+        {
+            var existingNames = parentItem.Children.Select(child => child.Name).ToList();
+
+            int counter = 0;
+
+            string uniqueName = baseName;
+
+            while (existingNames.Contains(uniqueName))
+            {
+                counter++;
+                uniqueName = $"{baseName}{counter}";
+            }
+
+            return uniqueName;
+        }
     }
+    
+
 }
