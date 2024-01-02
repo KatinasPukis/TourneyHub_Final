@@ -2,6 +2,7 @@
 using Sitecore.Data;
 using Sitecore.Data.Fields;
 using Sitecore.Data.Items;
+using Sitecore.Links;
 using Sitecore.Resources.Media;
 using Sitecore.Security.Accounts;
 using Sitecore.Security.Authentication;
@@ -205,16 +206,21 @@ namespace TourneyHub.Feature.Tournament.Services
             }
         }
 
-        public void DeleteItem(string id)
+        public void DeleteItem(string itemId)
         {
             try
             {
-                Item itemToDelete = Sitecore.Context.Database.GetItem(new ID(id));
+                ID itemID = new ID(itemId);
+                Item itemToDelete = Sitecore.Context.Database.GetItem(itemID);
 
                 if (itemToDelete != null)
                 {
                     using (new SecurityDisabler())
                     {
+                        // Remove references to the item
+                        RemoveLinksofTargetItem(itemToDelete);
+
+                        // Delete the item
                         itemToDelete.Delete();
                     }
                 }
@@ -222,6 +228,31 @@ namespace TourneyHub.Feature.Tournament.Services
             catch (Exception ex)
             {
                 Sitecore.Diagnostics.Log.Error("Error deleting item: " + ex.Message, this);
+            }
+        }
+
+        public void RemoveLinksofTargetItem(Item targetItem)
+        {
+            var links = Globals.LinkDatabase.GetReferrers(targetItem);
+
+            foreach (var link in links)
+            {
+                Item sourceItem = link.GetSourceItem();
+                if (sourceItem != null && !ID.IsNullOrEmpty(link.SourceFieldID))
+                    RemoveLink(sourceItem, link);
+            }
+        }
+        private void RemoveLink(Item item, ItemLink itemLink)
+        {
+            CustomField field = FieldTypeManager.GetField(item.Fields[itemLink.SourceFieldID]);
+            if (field != null)
+            {
+                using (new SecurityDisabler())
+                {
+                    item.Editing.BeginEdit();
+                    field.RemoveLink(itemLink);
+                    item.Editing.EndEdit();
+                }
             }
         }
         public void DeleteParticipant(string id)
@@ -284,6 +315,17 @@ namespace TourneyHub.Feature.Tournament.Services
         public void DeleteMatchResults(DeleteResultModel deleteResultModel)
         {
             Item matchItem = _masterDb.GetItem(deleteResultModel.MatchId);
+            using (new SecurityDisabler())
+            {
+                using (new EditContext(matchItem))
+                {
+                    matchItem.Editing.BeginEdit();
+                    matchItem?.DeleteChildren();
+                    matchItem[TournamentFields.Templates.TournamentMatch.Fields.WinnerFieldId] = string.Empty;
+                    matchItem.Editing.EndEdit();
+                }
+            }
+           
             Item stageItem = matchItem.Parent;
             if (matchItem != null)
             {
@@ -327,6 +369,8 @@ namespace TourneyHub.Feature.Tournament.Services
                                         {
                                             match[TournamentFields.Templates.TournamentMatch.Fields.SecondParticipantFieldId] = string.Empty; // Remove or set to empty
                                         }
+
+                                        match[TournamentFields.Templates.TournamentMatch.Fields.WinnerFieldId] = string.Empty;
                                         match.Editing.EndEdit();
                                         foreach (Item score in match.Children)
                                         {
@@ -466,6 +510,6 @@ namespace TourneyHub.Feature.Tournament.Services
             return uniqueName;
         }
     }
-    
+
 
 }

@@ -378,7 +378,7 @@ namespace TourneyHub.Feature.Tournament.Controllers
         {
             try
             {
-                tournamentService.AddNewSchedule(matchId,matchDate, matchLocation, matchReferee);
+                tournamentService.AddNewSchedule(matchId, matchDate, matchLocation, matchReferee);
                 return Json(new { success = true, message = "Schedule Created" });
             }
             catch (Exception ex)
@@ -392,7 +392,7 @@ namespace TourneyHub.Feature.Tournament.Controllers
         {
             try
             {
-                tournamentService.AddNewSchedule(matchId,matchDate, matchLocation, matchReferee);
+                tournamentService.AddNewSchedule(matchId, matchDate, matchLocation, matchReferee);
                 return Json(new { success = true, message = "Schedule Created" });
             }
             catch (Exception ex)

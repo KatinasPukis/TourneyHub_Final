@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <style>
         .tournament-stage {
             border: 2px solid black;
@@ -54,7 +53,6 @@
             font-weight: bold;
         }
 
-        /* Adjust button size */
         .data-button,
         .edit-button,
         .delete-result {
@@ -63,10 +61,25 @@
         }
     </style>
 
-
-
-
 </head>
+@functions {
+    string GetScoresString(List<ParticipantScore> scores, string participantId)
+    {
+        if (scores != null)
+        {
+            foreach (var score in scores)
+            {
+                if (score != null && score.ParticipantId == participantId)
+                {
+                    return string.Join(", ", score.Scores);
+                }
+            }
+        }
+
+        return String.Empty;
+    }
+}
+
 
 <body>
     <div class="container">
@@ -83,12 +96,16 @@
                                 <div class="participant-match" data-participant-match-id="@match.Id">
                                     <h4>@match.MatchName</h4>
                                     <hr />
-                                    <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
-                                        <i class="fa-solid fa-bars"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#participantModal">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </button>
+                                    @if (string.IsNullOrEmpty(match.Winner))
+                                    {
+                                        <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
+                                            <i class="fa-solid fa-bars"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#participantModal">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+
+                                    }
                                     <button type="button" class="btn btn-danger delete-result">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -96,9 +113,17 @@
                                     <div class="participant" data-participant-id="@((match.FirstParticipant != null) ? match.FirstParticipant.Id : null)" data-participant-type="first">
                                         @(match.FirstParticipant == null ? "TBD" : match.FirstParticipant.Name)
                                     </div>
+                                    @if (match.FirstParticipant != null)
+                                    {
+                                        <p>@GetScoresString(match.ParticipantScores, match.FirstParticipant.Id)</p>
+                                    }
                                     <div class="participant" data-participant-id="@((match.SecondParticipant != null) ? match.SecondParticipant.Id : null)" data-participant-type="second">
                                         @(match.SecondParticipant == null ? "TBD" : match.SecondParticipant.Name)
                                     </div>
+                                    @if (match.SecondParticipant != null)
+                                    {
+                                        <p>@GetScoresString(match.ParticipantScores, match.SecondParticipant.Id)</p>
+                                    }
                                 </div>
                             }
                         }
@@ -109,22 +134,38 @@
                                 <div class="team-match" data-team-match-id="@match.Id">
                                     <h4>@match.MatchName</h4>
                                     <hr />
-                                    <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
-                                        <i class="fa-solid fa-bars"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#teamModal">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </button>
+                                    @if (string.IsNullOrEmpty(match.Winner))
+                                    {
+                                        <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
+                                            <i class="fa-solid fa-bars"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#teamModal">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+
+                                    }
                                     <button type="button" class="btn btn-danger delete-result">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                     <hr />
+
                                     <div class="participant" data-participant-id="@((match.FirstTeam != null) ? match.FirstTeam.Id : null)" data-participant-type="first">
                                         @(match.FirstTeam == null ? "TBD" : match.FirstTeam.TeamName)
                                     </div>
+
+                                    @if (match.FirstTeam != null)
+                                    {
+                                        <p>@GetScoresString(match.ParticipantScores, match.FirstTeam.Id)</p>
+                                    }
+
                                     <div class="participant" data-participant-id="@((match.SecondTeam != null) ? match.SecondTeam.Id : null)" data-participant-type="second">
                                         @(match.SecondParticipant == null ? "TBD" : match.SecondTeam.TeamName)
                                     </div>
+
+                                    @if (match.SecondTeam != null)
+                                    {
+                                        <p>@GetScoresString(match.ParticipantScores, match.SecondTeam.Id)</p>
+                                    }
                                 </div>
                             }
                         }
@@ -297,7 +338,7 @@
             modal.attr('data-match-id', matchId);
             $('#dataModal').modal('show');
         });
-         //Schedule popup team case to add in id for match
+        //Schedule popup team case to add in id for match
         $('.team-match #data-button').click(function () {
             var matchId = $(this).closest('.team-match').data('team-match-id');
             var modal = $('#dataModal');

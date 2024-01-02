@@ -169,7 +169,6 @@
     <Content Include="Views\Tournament\Team.cshtml" />
     <Content Include="Views\Tournament\Matches.cshtml" />
     <Content Include="Views\Navigation\Index.cshtml" />
-    <Content Include="Views\Tournament\Matches-v2.cshtml" />
     <Content Include="Views\Tournament\Calendar.cshtml" />
     <Content Include="Views\Tournament\Statistics.cshtml" />
     <None Include="Web.config" />

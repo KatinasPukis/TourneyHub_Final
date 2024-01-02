@@ -15,7 +15,7 @@ namespace TourneyHub.Feature.Tournament.Fields
         public static class TournamentItemNames
         {
             public static readonly string Participants = "Participants";
-            public static readonly string TournamentMatch = "Tournament Matches";
+            public static readonly string TournamentMatch = "Match";
 
         }
         public static class TournamentData

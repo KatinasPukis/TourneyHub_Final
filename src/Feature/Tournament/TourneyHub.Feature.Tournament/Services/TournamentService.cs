@@ -83,36 +83,59 @@ namespace TourneyHub.Feature.Tournament.Services
                 }
             }
         }
-
         public TournamentCalendar GetTournamentCalendar(Item calendarItem)
         {
             TournamentCalendar tournamentCalendar = new TournamentCalendar();
-
-            List<TournamentCalendarEntry> tournamentCalendarEntries = new List<TournamentCalendarEntry>();
+            tournamentCalendar.CalendarEntries = new List<TournamentCalendarEntry>();
 
             foreach (Item calendarEntry in calendarItem.Children)
             {
-                DateField dateField = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.MatchDateFieldId];
-                Item firstParticipantItem = _masterDb.GetItem(calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.FirstParticipantFieldId].Value);
-                Item secondParticipantItem = _masterDb.GetItem(calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.SecondParticipantFieldId].Value);
-                TournamentParticipant firstParticipant = GetParticipant(firstParticipantItem);
-                TournamentParticipant secondParticipant = GetParticipant(secondParticipantItem);
-                TournamentCalendarEntry tournamentCalendarEntry = new TournamentCalendarEntry
-                {
-                    EntryId = calendarEntry.ID.ToString(),
-                    MatchId = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.TournamentMatchFieldId].Value,
-                    MatchDate = dateField.DateTime,
-                    MatchLocation = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.MatchLocationFieldId].Value,
-                    MatchReferee = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.MatchRefereeFieldId].Value,
-                    FirstParticipantId = firstParticipant.Name,
-                    SecondParticipantId = secondParticipant.Name,
-                };
-
-                tournamentCalendarEntries.Add(tournamentCalendarEntry);
+                TournamentCalendarEntry tournamentCalendarEntry = CreateTournamentCalendarEntry(calendarEntry);
+                tournamentCalendar.CalendarEntries.Add(tournamentCalendarEntry);
             }
-            tournamentCalendar.CalendarEntries = tournamentCalendarEntries;
 
             return tournamentCalendar;
+        }
+
+        private TournamentCalendarEntry CreateTournamentCalendarEntry(Item calendarEntry)
+        {
+            DateField dateField = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.MatchDateFieldId];
+
+            Item firstParticipantItem = _masterDb.GetItem(calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.FirstParticipantFieldId].Value);
+            Item secondParticipantItem = _masterDb.GetItem(calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.SecondParticipantFieldId].Value);
+
+            string firstParticipant = GetParticipantName(firstParticipantItem);
+            string secondParticipant = GetParticipantName(secondParticipantItem);
+
+            return new TournamentCalendarEntry
+            {
+                EntryId = calendarEntry.ID.ToString(),
+                MatchId = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.TournamentMatchFieldId].Value,
+                MatchDate = dateField.DateTime,
+                MatchLocation = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.MatchLocationFieldId].Value,
+                MatchReferee = calendarEntry.Fields[TournamentFields.Templates.CalendarEntry.Fields.MatchRefereeFieldId].Value,
+                FirstParticipantId = firstParticipant,
+                SecondParticipantId = secondParticipant,
+            };
+        }
+
+        private string GetParticipantName(Item participantItem)
+        {
+            if (participantItem == null)
+            {
+                return string.Empty;
+            }
+
+            if (participantItem.TemplateID == TournamentFields.Templates.Participant.ID)
+            {
+                return GetParticipant(participantItem)?.Name ?? string.Empty;
+            }
+            else if (participantItem.TemplateID == TournamentFields.Templates.TournamentTeam.ID)
+            {
+                return participantItem.Fields[TournamentFields.Templates.TournamentTeam.Fields.TeamNameFieldId]?.Value ?? string.Empty;
+            }
+
+            return string.Empty;
         }
 
         public List<TournamentModel> GetTournaments()
@@ -223,12 +246,12 @@ namespace TourneyHub.Feature.Tournament.Services
                     return;
                 }
 
-                var tournamentMatchTemplate = _masterDb.GetTemplate(TournamentFields.Templates.TournamentMatches.ID);
-                var tournamentMatchesName = TournamentFields.TournamentItemNames.TournamentMatch;
+                TemplateItem tournamentMatchTemplate = _masterDb.GetTemplate(TournamentFields.Templates.TournamentMatches.ID);
+                string tournamentMatchesName = TournamentFields.TournamentItemNames.TournamentMatch;
 
-                var tournamentMatchesItem = parentTournamentItem.Add(tournamentMatchesName, tournamentMatchTemplate);
+                Item tournamentMatchesItem = parentTournamentItem.Add(tournamentMatchesName, tournamentMatchTemplate);
 
-                var stageTemplateItem = _masterDb.GetTemplate(TournamentFields.Templates.Stage.ID);
+                TemplateItem stageTemplateItem = _masterDb.GetTemplate(TournamentFields.Templates.Stage.ID);
                 int numParticipants = tournamentFormData.TournamentType == TournamentTypeIndividual ? tournamentFormData.NumberOfParticipants : tournamentFormData.NumberOfTeams;
                 int numStages = 0;
 
@@ -237,7 +260,7 @@ namespace TourneyHub.Feature.Tournament.Services
                     numParticipants /= 2;
                     numStages++;
 
-                    var stageItem = tournamentMatchesItem.Add("Stage " + numStages, stageTemplateItem);
+                    Item stageItem = tournamentMatchesItem.Add("Round " + numStages, stageTemplateItem);
 
                     if (numStages == 1)
                     {
@@ -298,6 +321,8 @@ namespace TourneyHub.Feature.Tournament.Services
 
                 tournamentMatchesItem.Editing.EndEdit();
             }
+
+
         }
 
         public List<ParticipantScore> GetScoresForMatch(string matchId)
@@ -412,7 +437,7 @@ namespace TourneyHub.Feature.Tournament.Services
 
 
         }
-        //temp
+
         private void SetDateTimeFieldValue(Item item, ID fieldId, DateTime? dateTimeValue)
         {
             if (item == null || dateTimeValue == null)
@@ -1211,6 +1236,7 @@ namespace TourneyHub.Feature.Tournament.Services
                             MatchName = matchItem.Name,
                             FirstParticipant = GetMatchParticipant(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.FirstParticipantFieldId].Value),
                             SecondParticipant = GetMatchParticipant(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.SecondParticipantFieldId].Value),
+                            ParticipantScores = GetScoresForMatch(matchItem.ID.ToString()),
                             FirstTeam = GetMatchTeam(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.FirstParticipantFieldId].Value),
                             SecondTeam = GetMatchTeam(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.SecondParticipantFieldId].Value),
                             DateOfMatch = DateOfMatch,
@@ -1290,6 +1316,7 @@ namespace TourneyHub.Feature.Tournament.Services
                 MatchName = matchItem.Name,
                 FirstParticipant = GetMatchParticipant(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.FirstParticipantFieldId].Value),
                 SecondParticipant = GetMatchParticipant(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.SecondParticipantFieldId].Value),
+                ParticipantScores = GetScoresForMatch(matchItem.ID.ToString()),
                 FirstTeam = GetMatchTeam(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.FirstParticipantFieldId].Value),
                 SecondTeam = GetMatchTeam(matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.SecondParticipantFieldId].Value)
             };
