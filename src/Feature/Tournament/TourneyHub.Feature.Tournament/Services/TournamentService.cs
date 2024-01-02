@@ -12,7 +12,6 @@ using TourneyHub.Feature.Registration.Fields;
 using TourneyHub.Feature.Registration.Models;
 using TourneyHub.Feature.Tournament.Fields;
 using TourneyHub.Feature.Tournament.Models;
-using TourneyHub.Feature.Tournament.Services;
 
 namespace TourneyHub.Feature.Tournament.Services
 {
@@ -236,7 +235,6 @@ namespace TourneyHub.Feature.Tournament.Services
 
             return tournamentItem;
         }
-
         private void CreateTournamentMatches(TournamentFormData tournamentFormData, Item parentTournamentItem, Item tournament)
         {
             using (new SecurityDisabler())
@@ -253,6 +251,7 @@ namespace TourneyHub.Feature.Tournament.Services
 
                 TemplateItem stageTemplateItem = _masterDb.GetTemplate(TournamentFields.Templates.Stage.ID);
                 int numParticipants = tournamentFormData.TournamentType == TournamentTypeIndividual ? tournamentFormData.NumberOfParticipants : tournamentFormData.NumberOfTeams;
+                int numParticipantsConstant = tournamentFormData.TournamentType == TournamentTypeIndividual ? tournamentFormData.NumberOfParticipants : tournamentFormData.NumberOfTeams;
                 int numStages = 0;
 
                 while (numParticipants > 1)
@@ -324,7 +323,6 @@ namespace TourneyHub.Feature.Tournament.Services
 
 
         }
-
         public List<ParticipantScore> GetScoresForMatch(string matchId)
         {
             Item matchItem = _masterDb.GetItem(matchId);
@@ -978,8 +976,6 @@ namespace TourneyHub.Feature.Tournament.Services
 
             return DateTime.MinValue;
         }
-
-
 
         private string GetLinkToTournamentMatches(Item tournamentItem)
         {

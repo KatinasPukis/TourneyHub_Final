@@ -102,7 +102,7 @@
 <script>
 
     function removeParticipant(participantId) {
-        var confirmation = confirm("Are you sure you want to delete the selected participant?");
+        var confirmation = window.confirm("Are you sure you want to remove the selected participant? By removing the participant the tournament brackets will be regenerated!");
 
         if (confirmation) {
             $.ajax({
@@ -120,7 +120,8 @@
     }
 
     function removeTeam(teamId) {
-        var confirmation = confirm("Are you sure you want to delete the selected team ?");
+        var confirmation = window.confirm("Are you sure you want to remove the selected team? By removing the team the tournament brackets will be regenerated!");
+
 
         if (confirmation) {
             $.ajax({
@@ -138,30 +139,39 @@
     }
 
     function addParticipantBtn(TournamentId) {
-        $.ajax({
-            type: 'POST',
-            url: '/api/sitecore/Tournament/AddParticipant',
-            data: { TournamentId: TournamentId },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                console.error('Error adding participant:', error);
-            }
-        });
+        var confirmation = window.confirm("Are you sure you want to add a new participant? Adding a new participant will regenerate the tournament brackets!");
+
+        if (confirmation) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/sitecore/Tournament/AddParticipant',
+                data: { TournamentId: TournamentId },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error adding participant:', error);
+                }
+            });
+
+        }
     }
 
     function addTeamBtn(TournamentId) {
-        $.ajax({
-            type: 'POST',
-            url: '/api/sitecore/Tournament/AddTeam',
-            data: { TournamentId: TournamentId },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                console.error('Error adding team:', error);
-            }
-        });
+        var confirmation = window.confirm("Are you sure you want to add a new participant? Adding a new participant will regenerate the tournament brackets!");
+        if (confirmation) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/sitecore/Tournament/AddTeam',
+                data: { TournamentId: TournamentId },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error adding team:', error);
+                }
+            });
+
+        }
     }
 </script>
