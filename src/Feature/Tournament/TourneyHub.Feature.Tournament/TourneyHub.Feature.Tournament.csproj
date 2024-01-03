@@ -154,7 +154,9 @@
     <Compile Include="Models\TournamentOverview.cs" />
     <Compile Include="Models\TournamentParticipant.cs" />
     <Compile Include="Models\TournamentParticipants.cs" />
+    <Compile Include="Models\TournamentParticipantStatistics.cs" />
     <Compile Include="Models\TournamentStage.cs" />
+    <Compile Include="Models\TournamentStatistics.cs" />
     <Compile Include="Models\TournamentTeam.cs" />
     <Compile Include="Models\TournamentType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

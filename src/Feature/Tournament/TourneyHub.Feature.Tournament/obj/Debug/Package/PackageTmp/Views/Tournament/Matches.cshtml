@@ -99,7 +99,7 @@
                                     @if (string.IsNullOrEmpty(match.Winner))
                                     {
                                         <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
-                                            <i class="fa-solid fa-bars"></i>
+                                            <i class="fa fa-calendar"></i>
                                         </button>
                                         <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#participantModal">
                                             <i class="fas fa-pencil-alt"></i>
@@ -137,7 +137,7 @@
                                     @if (string.IsNullOrEmpty(match.Winner))
                                     {
                                         <button type="button" class="btn btn-primary data-button" id="data-button" data-toggle="modal" data-target="#dataModal">
-                                            <i class="fa-solid fa-bars"></i>
+                                            <i class="fa fa-calendar"></i>
                                         </button>
                                         <button type="button" class="btn btn-primary edit-button" data-toggle="modal" data-target="#teamModal">
                                             <i class="fas fa-pencil-alt"></i>
@@ -374,6 +374,7 @@
                     console.log(result);
                     // Optionally, close the modal or perform other actions
                     $('#dataModal').modal('hide');
+                    $('.modal-backdrop').remove();
                 },
                 error: function (error) {
                     // Handle error response

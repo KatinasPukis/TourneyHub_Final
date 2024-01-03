@@ -6,5 +6,7 @@ namespace TourneyHub.Feature.Tournament.Models
     {
         public string ParticipantId { get; set; }
         public List<int> Scores { get; set; }
+        public int WinCount { get; set; }
+        public int LossCount { get; set; }
     }
 }

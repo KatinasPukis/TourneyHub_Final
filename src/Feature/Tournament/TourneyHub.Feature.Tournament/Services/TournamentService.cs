@@ -60,11 +60,22 @@ namespace TourneyHub.Feature.Tournament.Services
                     CreateTournamentParticipants(tournamentFormData, parentTournamentItem);
                     CreateTournamentMatches(tournamentFormData, parentTournamentItem, parentTournamentItem);
                     CreateTournamentCalendar(parentTournamentItem);
+                    CreateTournamentStatistics(parentTournamentItem);
                 }
             }
             catch (Exception ex)
             {
                 // Properly handle or log the exception.
+            }
+        }
+
+        private void CreateTournamentStatistics(Item parentTournamentItem)
+        {
+            using (new SecurityDisabler())
+            {
+                TemplateItem template = _masterDb.GetTemplate(TournamentFields.Templates.Statistics.ID);
+                Item statistics = parentTournamentItem.Add("Statistics", template);
+
             }
         }
 
@@ -82,6 +93,157 @@ namespace TourneyHub.Feature.Tournament.Services
                 }
             }
         }
+
+        public TournamentStatistics GetTournamentStatistics(Item statisticsItem)
+        {
+            TournamentStatistics statistics = new TournamentStatistics();
+
+            Item tournamentItem = statisticsItem.Parent;
+            Item participantsItem = GetTournamentChildItem(tournamentItem, TournamentFields.Templates.Participants.ID);
+            Item matchesItem = GetTournamentChildItem(tournamentItem, TournamentFields.Templates.TournamentMatches.ID);
+
+            TournamentParticipants tournamentParticipant = GetParticipants(participantsItem);
+            string tournamentType = string.Empty;
+
+            List<ParticipantScore> participantScoresList = new List<ParticipantScore>();
+
+            int totalMatchesCount = 0;
+
+            int totalNumberOfWins = 0;
+
+            int totalNumberOfLoss = 0;
+
+            foreach (Item round in matchesItem.Children)
+            {
+                totalMatchesCount += round.Children.Count;
+
+                foreach (Item match in round.Children)
+                {
+                    string firstParticipant = match.Fields[TournamentFields.Templates.TournamentMatch.Fields.FirstParticipantFieldId].Value;
+                    string secondParticipant = match.Fields[TournamentFields.Templates.TournamentMatch.Fields.SecondParticipantFieldId].Value;
+                    string winner = match.Fields[TournamentFields.Templates.TournamentMatch.Fields.WinnerFieldId].Value;
+
+                    if (!string.IsNullOrEmpty(firstParticipant) && !string.IsNullOrEmpty(secondParticipant) && !string.IsNullOrEmpty(winner))
+                    {
+                        totalNumberOfWins += firstParticipant == winner ? 1 : 0;
+                        totalNumberOfWins += secondParticipant == winner ? 1 : 0;
+
+                        totalNumberOfLoss += firstParticipant != winner ? 1 : 0;
+                        totalNumberOfLoss += secondParticipant != winner ? 1 : 0;
+                    }
+
+                    List<ParticipantScore> scoresForMatch = GetScoresForMatch(match.ID.ToString());
+                    participantScoresList.AddRange(scoresForMatch);
+                }
+            }
+
+            List<ParticipantScore> aggregatedScores = participantScoresList
+                .GroupBy(score => score.ParticipantId)
+                .Select(group => new ParticipantScore
+                {
+                    ParticipantId = group.Key,
+                    Scores = group.SelectMany(score => score.Scores).ToList(),
+                    WinCount = group.Sum(score => score.WinCount),
+                    LossCount = group.Sum(score => score.LossCount)
+                })
+                .ToList();
+
+            statistics.TotalParticipants = tournamentParticipant.Participants.Count;
+            statistics.TotalNumberOfRounds = matchesItem.Children.Count;
+            statistics.TotalNumberOfMatches = totalMatchesCount;
+            statistics.OverallNumberOfWins = totalNumberOfWins;
+            statistics.OverallNumberOfLosses = totalNumberOfLoss;
+            statistics.AverageParticipantAge = CalculateParticipantAverageAge(tournamentParticipant);
+            statistics.TournamentType = GetTournamentDroplinkValue(tournamentItem.Fields[TournamentFields.Templates.TournamentInfo.Fields.TournamentTypeFieldId].Value) == TournamentTypeIndividual
+                ? TournamentTypeIndividual
+                : TournamentTypeTeam;
+
+            List<TournamentParticipantStatistics> tournamentParticipantStatistics = CalculateParticipantStatistics(aggregatedScores);
+            statistics.ParticipantStatistics = tournamentParticipantStatistics;
+
+
+            return statistics;
+        }
+        private List<TournamentParticipantStatistics> CalculateParticipantStatistics(List<ParticipantScore> scoresByParticipantId)
+        {
+            List<TournamentParticipantStatistics> participantStatisticsList = new List<TournamentParticipantStatistics>();
+
+            foreach (ParticipantScore entry in scoresByParticipantId)
+            {
+                List<int> scores = entry.Scores;
+                Item participantItem = _masterDb.GetItem(entry.ParticipantId);
+                Item teamItem = _masterDb.GetItem(entry.ParticipantId);
+                TournamentParticipantStatistics participantStatistics = new TournamentParticipantStatistics
+                {
+                    AverageScore = scores.Count > 0 ? scores.Sum() / scores.Count : 0,
+                    TotalScore = scores.Sum(),
+                    NumberOfWins = entry.WinCount,
+                    NumberOfLosses = entry.LossCount,
+                    Participant = GetParticipant(participantItem),
+                    Team = GetTournamentTeam(teamItem)
+                };
+
+                participantStatisticsList.Add(participantStatistics);
+            }
+
+            return participantStatisticsList;
+        }
+        private double CalculateParticipantAverageAge(TournamentParticipants tournamentParticipants)
+        {
+            if (tournamentParticipants.Participants == null || tournamentParticipants.Participants.Count == 0)
+            {
+                return 0; // Return 0 if there are no participants or the list is empty
+            }
+
+            int totalAge = tournamentParticipants.Participants.Sum(participant => participant.Age);
+            return (double)totalAge / tournamentParticipants.Participants.Count;
+        }
+        public double CalculateAverageTeamAge(TournamentParticipants tournamentParticipants)
+        {
+            if (tournamentParticipants.Teams == null || tournamentParticipants.Teams.Count == 0)
+            {
+                // No teams or participants, return a default value (e.g., -1)
+                return 0;
+            }
+
+            int totalAge = 0;
+            int totalParticipants = 0;
+
+            foreach (var team in tournamentParticipants.Teams)
+            {
+                if (team.TeamMembers != null)
+                {
+                    foreach (var participant in team.TeamMembers)
+                    {
+                        totalAge += participant.Age;
+                        totalParticipants++;
+                    }
+                }
+            }
+
+            if (totalParticipants == 0)
+            {
+                // No participants found, return a default value (e.g., -1)
+                return 0;
+            }
+
+            // Calculate and return the average age
+            return (double)totalAge / totalParticipants;
+        }
+
+
+        private static Item GetTournamentChildItem(Item parentItem, ID templateId)
+        {
+            if (parentItem == null)
+                throw new ArgumentNullException(nameof(parentItem));
+
+            // Get the children of the parent item
+            Item[] childItems = parentItem.GetChildren().ToArray();
+
+            // Find the first child item with the specified template ID
+            return childItems.FirstOrDefault(item => item.TemplateID == templateId);
+        }
+
         public TournamentCalendar GetTournamentCalendar(Item calendarItem)
         {
             TournamentCalendar tournamentCalendar = new TournamentCalendar();
@@ -172,6 +334,7 @@ namespace TourneyHub.Feature.Tournament.Services
                     CreateTournamentParticipants(tournamentFormData, parentTournamentItem);
                     CreateTournamentMatches(tournamentFormData, parentTournamentItem, parentTournamentItem);
                     CreateTournamentCalendar(parentTournamentItem);
+                    CreateTournamentStatistics(parentTournamentItem);
                 }
             }
             catch (Exception ex)
@@ -347,10 +510,20 @@ namespace TourneyHub.Feature.Tournament.Services
                     participantScore = new ParticipantScore
                     {
                         ParticipantId = participantId,
-                        Scores = new List<int>()
+                        Scores = new List<int>(),
+                        WinCount = 0,
+                        LossCount = 0
                     };
 
                     participantScores.Add(participantScore);
+                    if (participantScore.ParticipantId == matchItem.Fields[TournamentFields.Templates.TournamentMatch.Fields.WinnerFieldId].Value)
+                    {
+                        participantScore.WinCount++;
+                    }
+                    else
+                    {
+                        participantScore.LossCount++;
+                    }
                 }
 
                 participantScore.Scores.Add(score);

@@ -1,1 +1,143 @@
-﻿<h1> Statistics</h1>
+﻿@using System
+@using TourneyHub.Feature.Tournament.Models
+@model TourneyHub.Feature.Tournament.Models.TournamentStatistics
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Tournament Statistics Overview</title>
+
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Tournament Statistics Overview</h1>
+
+        <!-- Display Total Participants, Matches, Rounds -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Participants</h5>
+                        <p class="card-text">@Model.TotalParticipants</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Matches</h5>
+                        <p class="card-text">@Model.TotalNumberOfMatches</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Rounds</h5>
+                        <p class="card-text">@Model.TotalNumberOfRounds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display Overall Wins, Losses, and Average Age -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Overall Wins</h5>
+                        <p class="card-text">@Model.OverallNumberOfWins</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Overall Losses</h5>
+                        <p class="card-text">@Model.OverallNumberOfLosses</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Participant Age</h5>
+                        <p class="card-text">@Model.AverageParticipantAge</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model.TournamentType == "Individual")
+        {
+            <!-- Display Participant Statistics -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3>Participant Statistics</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>Age</th>
+                                <th>Average Score</th>
+                                <th>Total Score</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var participantStat in Model.ParticipantStatistics)
+                            {
+                                <tr>
+                                    <td>@participantStat.Participant.Name</td>
+                                    <td>@participantStat.Participant.Surname</td>
+                                    <td>@participantStat.Participant.Age</td>
+                                    <td>@participantStat.AverageScore</td>
+                                    <td>@participantStat.TotalScore</td>
+                                    <td>@participantStat.NumberOfWins</td>
+                                    <td>@participantStat.NumberOfLosses</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3>Participant Statistics</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Team Name</th>
+                                <th>Average Score</th>
+                                <th>Total Score</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var participantStat in Model.ParticipantStatistics)
+                            {
+                                <tr>
+                                    <td>@participantStat.Team.TeamName</td>
+                                    <td>@participantStat.AverageScore</td>
+                                    <td>@participantStat.TotalScore</td>
+                                    <td>@participantStat.NumberOfWins</td>
+                                    <td>@participantStat.NumberOfLosses</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        }
+        <!-- Display Participant Statistics -->
+    </div>
+</body>
+</html>

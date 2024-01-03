@@ -132,6 +132,16 @@ namespace TourneyHub.Feature.Tournament.Fields
 
                 }
             }
+            public static class Statistics
+            {
+                public static readonly ID ID = new ID("{8C501A9B-8DDD-465F-950A-DD4C2CA984F0}");
+
+                public static class Fields
+                {
+                   
+
+                }
+            }
             public static class TournamentMatches
             {
                 public static readonly ID ID = new ID("{F5843129-BB5F-4C87-86E0-2EA1234698A7}");

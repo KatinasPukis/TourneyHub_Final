@@ -93,8 +93,8 @@ namespace TourneyHub.Feature.Tournament.Controllers
 
             if (rendering.Item != null)
             {
-                //TournamentTeam tournamentTeam = tournamentService.GetTournamentTeam(rendering.Item);
-                //return View(tournamentTeam);
+                TournamentStatistics tournamentStatistics = tournamentService.GetTournamentStatistics(rendering.Item);
+                return View(tournamentStatistics);
             }
 
             return View();

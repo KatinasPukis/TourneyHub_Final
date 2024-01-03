@@ -371,6 +371,7 @@ namespace TourneyHub.Feature.Tournament.Services
                                         }
 
                                         match[TournamentFields.Templates.TournamentMatch.Fields.WinnerFieldId] = string.Empty;
+                                        match?.DeleteChildren();
                                         match.Editing.EndEdit();
                                         foreach (Item score in match.Children)
                                         {
