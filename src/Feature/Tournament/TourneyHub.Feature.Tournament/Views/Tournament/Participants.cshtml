@@ -1,5 +1,4 @@
 ﻿@model TourneyHub.Feature.Tournament.Models.TournamentParticipants
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,9 +41,6 @@
                             <th>Surname</th>
                             <th>Age</th>
                             <th>Info</th>
-                            @*<th>
-                                <button type="button" class="btn btn-primary" onclick="addParticipantBtn('@Model.TournamentId')">Add Participant</button>
-                            </th>*@
                         </tr>
                     </thead>
                     <tbody>
@@ -55,9 +51,6 @@
                                 <td>@participant.Surname</td>
                                 <td>@participant.Age</td>
                                 <td>@participant.Info</td>
-                                @*<td>
-                                    <button type="button" class="btn btn-danger" onclick="removeParticipant('@participant.Id')">X</button>
-                                </td>*@
                             </tr>
                         }
                     </tbody>
@@ -73,9 +66,6 @@
                             <th>Team Name</th>
                             <th>Team Description</th>
                             <th>Logo</th>
-                            @*<th>
-                                <button type="button" class="btn btn-primary" onclick="addTeamBtn('@Model.TournamentId')">Add Team</button>
-                            </th>*@
                         </tr>
                     </thead>
                     <tbody>
@@ -87,9 +77,6 @@
                                 <td>
                                     <img src="@team.LogoUrl" alt="@team.TeamName Logo" class="team-logo">
                                 </td>
-                                @*<td>
-                                    <button type="button" class="btn btn-danger" onclick="removeTeam('@team.Id')">X</button>
-                                </td>*@
                             </tr>
                         }
                     </tbody>
@@ -99,79 +86,3 @@
     </body>
 }
 </html>
-<script>
-
-    function removeParticipant(participantId) {
-        var confirmation = window.confirm("Are you sure you want to remove the selected participant? By removing the participant the tournament brackets will be regenerated!");
-
-        if (confirmation) {
-            $.ajax({
-                type: 'DELETE',
-                url: '/api/sitecore/Tournament/DeleteParticipant',
-                data: { participantId: participantId },
-                success: function (data) {
-                    location.reload();
-                },
-                error: function (error) {
-                    console.error('Error removing participant:', error);
-                }
-            });
-        }
-    }
-
-    function removeTeam(teamId) {
-        var confirmation = window.confirm("Are you sure you want to remove the selected team? By removing the team the tournament brackets will be regenerated!");
-
-
-        if (confirmation) {
-            $.ajax({
-                type: 'DELETE',
-                url: '/api/sitecore/Tournament/DeleteTeam',
-                data: { teamId: teamId },
-                success: function (data) {
-                    location.reload();
-                },
-                error: function (error) {
-                    console.error('Error removing team:', error);
-                }
-            });
-        }
-    }
-
-    function addParticipantBtn(TournamentId) {
-        var confirmation = window.confirm("Are you sure you want to add a new participant? Adding a new participant will regenerate the tournament brackets!");
-
-        if (confirmation) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/sitecore/Tournament/AddParticipant',
-                data: { TournamentId: TournamentId },
-                success: function (data) {
-                    location.reload();
-                },
-                error: function (error) {
-                    console.error('Error adding participant:', error);
-                }
-            });
-
-        }
-    }
-
-    function addTeamBtn(TournamentId) {
-        var confirmation = window.confirm("Are you sure you want to add a new participant? Adding a new participant will regenerate the tournament brackets!");
-        if (confirmation) {
-            $.ajax({
-                type: 'POST',
-                url: '/api/sitecore/Tournament/AddTeam',
-                data: { TournamentId: TournamentId },
-                success: function (data) {
-                    location.reload();
-                },
-                error: function (error) {
-                    console.error('Error adding team:', error);
-                }
-            });
-
-        }
-    }
-</script>

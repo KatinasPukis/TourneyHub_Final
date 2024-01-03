@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\wwwroot\TourneyHub.sc</_PublishTargetUrl>
-    <History>True|2024-01-03T13:42:37.4242410Z;True|2024-01-03T15:42:14.6949249+02:00;True|2024-01-03T15:41:13.2684019+02:00;True|2024-01-03T15:27:41.6947438+02:00;True|2024-01-03T15:25:48.5927600+02:00;True|2024-01-03T15:24:30.3506075+02:00;True|2024-01-03T15:23:09.0780299+02:00;True|2024-01-03T15:22:26.1234222+02:00;True|2024-01-03T15:10:09.8245654+02:00;True|2024-01-03T15:01:50.4860304+02:00;True|2024-01-03T14:58:10.5965219+02:00;True|2024-01-03T14:57:43.4359482+02:00;True|2024-01-03T14:54:27.5642500+02:00;</History>
+    <History>True|2024-01-03T13:53:38.8696448Z;True|2024-01-03T15:52:25.2964214+02:00;True|2024-01-03T15:42:37.4242410+02:00;True|2024-01-03T15:42:14.6949249+02:00;True|2024-01-03T15:41:13.2684019+02:00;True|2024-01-03T15:27:41.6947438+02:00;True|2024-01-03T15:25:48.5927600+02:00;True|2024-01-03T15:24:30.3506075+02:00;True|2024-01-03T15:23:09.0780299+02:00;True|2024-01-03T15:22:26.1234222+02:00;True|2024-01-03T15:10:09.8245654+02:00;True|2024-01-03T15:01:50.4860304+02:00;True|2024-01-03T14:58:10.5965219+02:00;True|2024-01-03T14:57:43.4359482+02:00;True|2024-01-03T14:54:27.5642500+02:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Config/Include/Rainbow.config">
@@ -22,6 +22,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="App_Config/Include/Unicorn/Unicorn.Configs.Default.example">
       <publishTime>01/03/2024 14:51:30</publishTime>
+    </File>
+    <File Include="App_Config/Include/Unicorn/Unicorn.Configs.Default.Roles.config.example">
+      <publishTime>01/03/2024 15:46:05</publishTime>
     </File>
     <File Include="App_Config/Include/Unicorn/Unicorn.Configs.Default.xml">
       <publishTime>01/03/2024 15:24:25</publishTime>
@@ -43,6 +46,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="App_Config/Include/Unicorn/Unicorn.Remote.config.disabled">
       <publishTime>01/03/2024 14:51:28</publishTime>
+    </File>
+    <File Include="App_Config/Include/Unicorn/Unicorn.Roles.config">
+      <publishTime>01/03/2024 15:46:05</publishTime>
+    </File>
+    <File Include="App_Config/Include/Unicorn/Unicorn.Roles.DataProvider.config">
+      <publishTime>01/03/2024 15:46:05</publishTime>
     </File>
     <File Include="App_Config/Include/Unicorn/Unicorn.UI.config">
       <publishTime>01/03/2024 14:51:28</publishTime>
@@ -228,12 +237,15 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/08/2018 12:18:16</publishTime>
     </File>
     <File Include="bin/TourneyHub.Foundation.Unicorn.dll">
-      <publishTime>01/03/2024 15:42:37</publishTime>
+      <publishTime>01/03/2024 15:52:25</publishTime>
     </File>
     <File Include="bin/TourneyHub.Foundation.Unicorn.pdb">
-      <publishTime>01/03/2024 15:42:37</publishTime>
+      <publishTime>01/03/2024 15:52:25</publishTime>
     </File>
     <File Include="bin/Unicorn.dll">
+      <publishTime>10/23/2021 13:49:40</publishTime>
+    </File>
+    <File Include="bin/Unicorn.Roles.dll">
       <publishTime>10/23/2021 13:49:40</publishTime>
     </File>
   </ItemGroup>

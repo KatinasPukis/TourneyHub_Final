@@ -192,7 +192,7 @@ namespace TourneyHub.Feature.Tournament.Services
         {
             if (tournamentParticipants.Participants == null || tournamentParticipants.Participants.Count == 0)
             {
-                return 0; // Return 0 if there are no participants or the list is empty
+                return 0;
             }
 
             int totalAge = tournamentParticipants.Participants.Sum(participant => participant.Age);
@@ -202,7 +202,6 @@ namespace TourneyHub.Feature.Tournament.Services
         {
             if (tournamentParticipants.Teams == null || tournamentParticipants.Teams.Count == 0)
             {
-                // No teams or participants, return a default value (e.g., -1)
                 return 0;
             }
 
@@ -223,11 +222,9 @@ namespace TourneyHub.Feature.Tournament.Services
 
             if (totalParticipants == 0)
             {
-                // No participants found, return a default value (e.g., -1)
                 return 0;
             }
 
-            // Calculate and return the average age
             return (double)totalAge / totalParticipants;
         }
 
@@ -905,7 +902,6 @@ namespace TourneyHub.Feature.Tournament.Services
 
                     participantItem.Editing.BeginEdit();
 
-                    // Set participant information fields as needed.
                     participantItem.Fields[TournamentFields.Templates.Participant.Fields.NameFieldId].Value = participantName;
 
                     participantItem.Editing.EndEdit();

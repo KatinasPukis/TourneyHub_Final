@@ -12,8 +12,6 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Tournament Statistics Overview</h1>
-
-        <!-- Display Total Participants, Matches, Rounds -->
         <div class="row">
             <div class="col-md-4">
                 <div class="card">
@@ -41,7 +39,6 @@
             </div>
         </div>
 
-        <!-- Display Overall Wins, Losses, and Average Age -->
         <div class="row mt-4">
             <div class="col-md-4">
                 <div class="card">
@@ -68,9 +65,9 @@
                 </div>
             </div>
         </div>
+
         @if (Model.TournamentType == "Individual")
         {
-            <!-- Display Participant Statistics -->
             <div class="row mt-4">
                 <div class="col-md-12">
                     <h3>Participant Statistics</h3>
@@ -137,7 +134,6 @@
             </div>
 
         }
-        <!-- Display Participant Statistics -->
     </div>
 </body>
 </html>

@@ -17,17 +17,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
 
-
     <style>
-        /* You can add your custom styles here */
         #calendar {
             max-width: 900px;
             margin: 40px auto;
         }
         .event-title {
-            white-space: normal; /* Allow text to wrap */
-            word-wrap: break-word; /* Break words onto the next line if necessary */
-            max-width: 200px; /* Set a maximum width if needed */
+            white-space: normal;
+            word-wrap: break-word;
+            max-width: 200px;
         }
     </style>
 </head>
@@ -58,15 +56,13 @@
                     referee: entry.MatchReferee,
                     participant1: entry.FirstParticipantId,
                     participant2: entry.SecondParticipantId,
-                    id: entry.EntryId // Unique ID for each event
+                    id: entry.EntryId
                 };
             }),
             eventRender: function (event, element) {
-                // Customize the event rendering if needed
                 var content = '<p class="event-title"><strong>' + event.title + '</strong></p>';
                 content += '<button class="btn btn-danger btn-sm remove-button" data-entry-id="' + event.id + '">Remove</button>';
 
-                // Add Bootstrap tooltip to show detailed information on hover
                 element.popover({
                     title: 'Match Details',
                     content: '<p><strong>Location:</strong> ' + event.location + '</p>' +
@@ -82,18 +78,13 @@
             }
         });
 
-        // Handle click event for the remove button
         $('#calendar').on('click', '.remove-button', function () {
             var entryId = $(this).data('entry-id');
-
-            // Perform the removal logic here
-            // Make an AJAX call to your server to remove the entry
             $.ajax({
-                url: '/api/sitecore/Tournament/DeleteCalendarEntry', // Replace with your actual API endpoint
+                url: '/api/sitecore/Tournament/DeleteCalendarEntry',
                 type: 'DELETE',
                 data: { entryId: entryId },
                 success: function (data) {
-                    // On successful removal, remove the event from the calendar
                     $('#calendar').fullCalendar('removeEvents', entryId);
                 },
                 error: function (error) {
@@ -102,11 +93,7 @@
             });
         });
     });
-
-
     </script>
-
-
 
 </body>
 </html>

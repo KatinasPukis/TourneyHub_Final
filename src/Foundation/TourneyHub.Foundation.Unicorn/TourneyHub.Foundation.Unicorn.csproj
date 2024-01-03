@@ -98,6 +98,7 @@
     <Content Include="App_Config\Include\Unicorn\Unicorn.Roles.DataProvider.config" />
     <Content Include="App_Config\Include\Unicorn\Unicorn.Roles.config" />
     <Content Include="App_Config\Include\Unicorn\Unicorn.Configs.Default.Roles.config.example" />
+    <None Include="App_Config\Include\Unicorn\Unicorn.Configs.Default.Roles.config" />
     <None Include="App_Config\Include\Unicorn\Unicorn.UI.IdentityServer.config" />
     <Content Include="App_Config\Include\Unicorn\Unicorn.UI.DeployedContentEditorWarnings.config.disabled" />
     <Content Include="App_Config\Include\Unicorn\Unicorn.UI.config" />

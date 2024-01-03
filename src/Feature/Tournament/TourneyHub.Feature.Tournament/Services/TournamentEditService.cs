@@ -96,9 +96,9 @@ namespace TourneyHub.Feature.Tournament.Services
 
                     MediaCreatorOptions options = new MediaCreatorOptions
                     {
-                        Database = _masterDb, // Use the appropriate database
-                        Destination = destinationPath, // Set the updated path
-                        Versioned = false, // Set to true if you want versioned media items
+                        Database = _masterDb,
+                        Destination = destinationPath,
+                        Versioned = false,
                     };
 
 
@@ -166,8 +166,6 @@ namespace TourneyHub.Feature.Tournament.Services
             }
         }
 
-
-
         public void EditUser(UserViewModel userModel, bool updatePassword)
         {
             User currentUser = Sitecore.Context.User;
@@ -205,7 +203,6 @@ namespace TourneyHub.Feature.Tournament.Services
                 }
             }
         }
-
         public void DeleteItem(string itemId)
         {
             try
@@ -217,10 +214,7 @@ namespace TourneyHub.Feature.Tournament.Services
                 {
                     using (new SecurityDisabler())
                     {
-                        // Remove references to the item
                         RemoveLinksofTargetItem(itemToDelete);
-
-                        // Delete the item
                         itemToDelete.Delete();
                     }
                 }
@@ -255,27 +249,6 @@ namespace TourneyHub.Feature.Tournament.Services
                 }
             }
         }
-        public void DeleteParticipant(string id)
-        {
-            try
-            {
-                Item itemToDelete = Sitecore.Context.Database.GetItem(new ID(id));
-
-                if (itemToDelete != null)
-                {
-                    using (new SecurityDisabler())
-                    {
-                        itemToDelete.Delete();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Sitecore.Diagnostics.Log.Error("Error deleting participant: " + ex.Message, this);
-            }
-        }
-
-
         public void EditTournamentTeamItem(TournamentTeam teamData)
         {
             if (teamData == null)
@@ -334,8 +307,8 @@ namespace TourneyHub.Feature.Tournament.Services
                 {
                     if (stage.ID == stageItem.ID)
                     {
-                        shouldSkip = true; // Set the flag to skip the next item
-                        continue; // Continue to the next iteration
+                        shouldSkip = true;
+                        continue;
                     }
 
                     if (shouldSkip)
@@ -385,7 +358,7 @@ namespace TourneyHub.Feature.Tournament.Services
                                 }
                             }
                         }
-                        continue; // Skip the current item
+                        continue;
                     }
 
                 }
@@ -496,7 +469,7 @@ namespace TourneyHub.Feature.Tournament.Services
         }
         public string GetUniqueItemName(string baseName, Item parentItem)
         {
-            var existingNames = parentItem.Children.Select(child => child.Name).ToList();
+            List<string> existingNames = parentItem.Children.Select(child => child.Name).ToList();
 
             int counter = 0;
 

@@ -64,3 +64,4 @@ C:\TouneyHub\TourneyHub\src\Foundation\TourneyHub.Foundation.Unicorn\obj\Debug\T
 C:\TouneyHub\TourneyHub\src\Foundation\TourneyHub.Foundation.Unicorn\obj\Debug\TourneyHub.Foundation.Unicorn.csproj.CopyComplete
 C:\TouneyHub\TourneyHub\src\Foundation\TourneyHub.Foundation.Unicorn\obj\Debug\TourneyHub.Foundation.Unicorn.dll
 C:\TouneyHub\TourneyHub\src\Foundation\TourneyHub.Foundation.Unicorn\obj\Debug\TourneyHub.Foundation.Unicorn.pdb
+C:\TouneyHub\TourneyHub\src\Foundation\TourneyHub.Foundation.Unicorn\bin\Unicorn.Roles.dll

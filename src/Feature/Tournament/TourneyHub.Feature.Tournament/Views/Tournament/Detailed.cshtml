@@ -11,6 +11,7 @@
             flex: 0 0 100%;
             max-width: 100%;
         }
+
         .col-md-6 {
             -ms-flex: 0 0 100%;
             flex: 0 0 100%;
@@ -121,10 +122,8 @@
                         contentType: false,
                         success: function (response) {
                             if (response.success) {
-                                // Reload the page
                                 window.location.reload();
                             } else {
-                                // Handle the error, e.g., show an error message
                                 alert(response.message);
                             }
                         },
@@ -132,11 +131,7 @@
                             alert("An error occurred while communicating with the server");
                         }
                     });
-
-                    // Close the modal after saving
                     $('#editTournamentModal').modal('hide');
-                } else {
-                    // Display an error message or take appropriate action if the form is invalid
                 }
             });
         });

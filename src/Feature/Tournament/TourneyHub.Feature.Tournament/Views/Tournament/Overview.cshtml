@@ -7,7 +7,7 @@
                 <h1>My Tournaments</h1>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <a href="/Home" class="btn btn-primary">Create A New Tournament</a>
-                    <button id="editUserButton" class="btn btn-primary">Edit User Data</button>
+                    @*<button id="editUserButton" class="btn btn-primary">Edit User Data</button>*@
                 </div>
 
                 <div class="row">
@@ -37,8 +37,7 @@
             </div>
 
             <div class="col-md-4">
-                <!-- User Data Card on the right -->
-                <div class="card mb-3 border-1">
+                <div class="card border-info">
                     <div class="card-body" data-user-id="@Model.UserData.Id">
                         <h5 class="card-title">User Information</h5>
                         <p class="card-text">
@@ -47,6 +46,7 @@
                             <strong>Surname:</strong> @Model.UserData.Surname<br>
                             <strong>Email:</strong> @Model.UserData.Email
                         </p>
+                        <button id="editUserDataButton" class="btn btn-info" data-toggle="modal" data-target="#editUserModal">Edit User Data</button>
                     </div>
                 </div>
             </div>

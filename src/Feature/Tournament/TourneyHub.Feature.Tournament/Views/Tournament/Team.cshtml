@@ -8,7 +8,6 @@
     <title>@Model.TeamName</title>
     
     <style>
-        /* Custom CSS for styling */
         .card {
             width: 100%;
             position: relative;
@@ -54,6 +53,7 @@
                 <p>@Model.TeamDescription</p>
             </div>
         </div>
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -61,9 +61,6 @@
                     <th>Surname</th>
                     <th>Age</th>
                     <th>Info</th>
-                    <th>
-                        <button type="button" class="btn btn-primary" onclick="addParticipantToTeamBtn('@Model.Id')">Add Participant</button>
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -74,15 +71,11 @@
                         <td>@participant.Surname</td>
                         <td>@participant.Age</td>
                         <td>@participant.Info</td>
-                        <td>
-                            <button type="button" class="btn btn-danger" onclick="removeParticipant('@participant.Id')">X</button>
-                        </td>
                     </tr>
                 }
             </tbody>
         </table>
 
-        <!-- Popup Modal -->
         <div class="modal fade" id="editTeamModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-team-id="@Model.Id">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -93,7 +86,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Fields to edit go here -->
                         <form id="editTeamForm" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="TeamName">Team Name</label>
@@ -120,35 +112,4 @@
 
 </body>
 </html>
-<script>
-    function removeParticipant(participantId) {
-        var confirmation = confirm("Are you sure you want to delete the selected participant?");
 
-        if (confirmation) {
-            $.ajax({
-                type: 'DELETE',
-                url: '/api/sitecore/Tournament/DeleteParticipant',
-                data: { participantId: participantId },
-                success: function (data) {
-                    location.reload();
-                },
-                error: function (error) {
-                    console.error('Error removing participant:', error);
-                }
-            });
-        }
-    }
-    function addParticipantToTeamBtn(teamItemId) {
-        $.ajax({
-            type: 'POST',
-            url: '/api/sitecore/Tournament/AddParticipantToTeam',
-            data: { teamItemId: teamItemId },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                console.error('Error adding participant:', error);
-            }
-        });
-    }
-</script>

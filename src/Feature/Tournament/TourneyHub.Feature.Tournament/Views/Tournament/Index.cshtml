@@ -16,19 +16,16 @@
                         <form id="tournamentForm" action="#" method="post">
                             <h3 class="mb-4">Tournament Generation</h3>
 
-                            <!-- Step 1: Enter Tournament Name -->
                             <div class="form-group">
                                 <label for="tournamentName">Tournament Name:</label>
                                 <input type="text" class="form-control" id="tournamentName" name="tournamentName" required>
                             </div>
 
-                            <!-- Step 2: Enter Sport Name -->
                             <div class="form-group">
                                 <label for="sportName">Sport Name:</label>
                                 <input type="text" class="form-control" id="sportName" name="sportName" required>
                             </div>
 
-                            <!-- Step 3: Choose Tournament Format -->
                             <div class="form-group">
                                 <label for="tournamentFormat">Choose Tournament Format:</label>
                                 <select class="form-control" id="tournamentFormat" name="tournamentFormat" required>
@@ -39,13 +36,14 @@
                                     <option value="Multistage: Round-robin Groups + Knockouts Brackets" disabled>Multistage: Round-robin Groups + Knockouts Brackets</option>
                                 </select>
                             </div>
-                            <!-- Step 4: Choose Tournament Type -->
+
                             <div class="form-group">
                                 <label>Choose Tournament Type:</label>
                                 <div class="form-check">
                                     <input type="radio" class="form-check-input" id="individualRadio" name="tournamentType" value="Individual" required>
                                     <label class="form-check-label" for="individualRadio">Individual</label>
                                 </div>
+
                                 <div class="form-check">
                                     <input type="radio" class="form-check-input" id="teamRadio" name="tournamentType" value="Team" required>
                                     <label class="form-check-label" for="teamRadio">Team</label>
