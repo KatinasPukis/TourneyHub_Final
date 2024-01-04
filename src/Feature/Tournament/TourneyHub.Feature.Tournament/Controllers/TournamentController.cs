@@ -110,7 +110,7 @@ namespace TourneyHub.Feature.Tournament.Controllers
 
         public ActionResult GetTournamentFormData(TournamentFormData tournamentFormData = null)
         {
-            var tempTournamentIdentifier = HttpContext.Request.Cookies["tempTournamentIdentifier"];
+            HttpCookie tempTournamentIdentifier = HttpContext.Request.Cookies["tempTournamentIdentifier"];
             Item currentUser = tournamentService.GetCurrentUserItem();
             bool success = false;
             string redirectUrl = null;
@@ -118,7 +118,6 @@ namespace TourneyHub.Feature.Tournament.Controllers
             if (currentUser == null && !Sitecore.Context.User.IsAuthenticated)
             {
                 tournamentService.CreateTemporaryTournament(tournamentFormData, tempTournamentIdentifier.Value);
-
                 success = true;
                 redirectUrl = $"/TempTournaments/{tempTournamentIdentifier.Value}";
             }

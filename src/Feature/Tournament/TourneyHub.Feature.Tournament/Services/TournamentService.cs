@@ -602,8 +602,6 @@ namespace TourneyHub.Feature.Tournament.Services
 
                 }
             }
-
-
         }
 
         private void SetDateTimeFieldValue(Item item, ID fieldId, DateTime? dateTimeValue)
@@ -1362,13 +1360,7 @@ namespace TourneyHub.Feature.Tournament.Services
         public TournamentMatches GetTournamentMatches(Item tournamentMatchesItem)
         {
             TournamentMatches tournamentMatches = new TournamentMatches();
-
-
-
             List<TournamentStage> tournamentStages = new List<TournamentStage>();
-
-
-
             foreach (Item stageItem in tournamentMatchesItem.Children)
             {
                 List<TournamentMatch> tournamentMatchesList = new List<TournamentMatch>();
@@ -1376,8 +1368,6 @@ namespace TourneyHub.Feature.Tournament.Services
 
                 foreach (Item matchItem in stageItem.Children)
                 {
-
-
                     if (matchItem.TemplateID == TournamentFields.Templates.TournamentMatch.ID)
                     {
                         DateTime DateOfMatch;
@@ -1389,12 +1379,8 @@ namespace TourneyHub.Feature.Tournament.Services
                         {
                             DateOfMatch = DateTime.MinValue;
                         }
-
-
                         tournamentMatches.IsIndividual = GetTournamentType(tournamentMatchesItem);
                         tournamentMatches.Id = tournamentMatches.Id;
-
-
                         TournamentMatch tournamentMatch = new TournamentMatch
                         {
                             Id = matchItem.ID.ToString(),
@@ -1414,8 +1400,6 @@ namespace TourneyHub.Feature.Tournament.Services
                     {
                         continue;
                     }
-
-
                 }
                 tournamentStage.TournamentMatches = tournamentMatchesList;
                 tournamentStage.StageName = stageItem.Fields[TournamentFields.Templates.Stage.Fields.StageNameFieldId].Value;

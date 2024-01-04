@@ -330,7 +330,6 @@
                 $('.participant[data-participant-id="' + participantId + '"]').css('background-color', 'cornsilk');
             }
         );
-        //Schedule popup participant case to add in id for match
         $('.participant-match #data-button').click(function () {
             var matchId = $(this).closest('.participant-match').data('participant-match-id');
 
@@ -338,7 +337,6 @@
             modal.attr('data-match-id', matchId);
             $('#dataModal').modal('show');
         });
-        //Schedule popup team case to add in id for match
         $('.team-match #data-button').click(function () {
             var matchId = $(this).closest('.team-match').data('team-match-id');
             var modal = $('#dataModal');
@@ -346,19 +344,15 @@
             $('#dataModal').modal('show');
         });
 
-        // Handle click on the close button in participant-modal
         $('#dataModal .close-modal-button').click(function () {
             $('#dataModal').modal('hide');
         });
 
         $('#dataModal .btn-primary').click(function () {
-            // Get data from the form
             var matchId = $('#dataModal').attr('data-match-id');
             var matchDate = $('#matchDate').val();
             var matchLocation = $('#matchLocation').val();
             var matchReferee = $('#matchReferee').val();
-            console.log("Atejo i data schedule");
-            // Make AJAX call
             $.ajax({
                 type: 'POST',
                 url: '/api/sitecore/Tournament/AddSchedule',
@@ -370,14 +364,11 @@
                     MatchReferee: matchReferee
                 }),
                 success: function (result) {
-                    // Handle success response
                     console.log(result);
-                    // Optionally, close the modal or perform other actions
                     $('#dataModal').modal('hide');
                     $('.modal-backdrop').remove();
                 },
                 error: function (error) {
-                    // Handle error response
                     console.error(error);
                 }
             });

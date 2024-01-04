@@ -44,18 +44,13 @@
     $(document).ready(function () {
         $('#logoutButton').click(function () {
             $.ajax({
-                url: '/api/sitecore/Header/Logout', // Adjust the URL based on your controller structure
-                type: 'POST', // or 'GET' depending on your controller action
-                success: function (data) {
-                    // Handle the success response
-                    console.log('Logout successful');
-
-                    // Redirect to the default URL ("/Home")
+                url: '/api/sitecore/Header/Logout',
+                type: 'POST',
+                success: function () {
                     window.location.href = '/Home';
                 },
                 error: function (error) {
-                    // Handle the error response
-                    console.error('Logout failed', error);
+                    console.log(error);
                 }
             });
         });

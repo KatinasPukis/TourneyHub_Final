@@ -23,7 +23,7 @@ namespace TourneyHub.Feature.Header.Controllers
             var headerModel = new HeaderModel
             {
                 Page = homeItem != null ? new MenuViewModel(homeItem) : null,
-                LogoID = HeaderFields.Template.Header.Fields.LogoFieldID?.ToString(), // Added null check
+                LogoID = HeaderFields.Template.Header.Fields.LogoFieldID?.ToString(),
                 LinkToUserPage = url
             };
 

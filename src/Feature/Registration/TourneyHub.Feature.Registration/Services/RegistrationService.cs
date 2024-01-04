@@ -33,8 +33,6 @@ namespace TourneyHub.Feature.Registration.Services
                 Sitecore.Security.Accounts.User user = Sitecore.Security.Accounts.User.FromName(userName, true);
 
                 user.Roles.Add(role);
-
-                // Set user profile information
                 Sitecore.Security.UserProfile userProfile = user.Profile;
                 userProfile.FullName = string.Format("{0} {1}", userViewModel.Name, userViewModel.Surname);
                 userProfile.Email = userViewModel.Email;

@@ -21,17 +21,9 @@ namespace TourneyHub.Feature.Login.Controllers
         public ActionResult UserData(string username = null, string password = null)
         {
            
-
             string redirectUrl = null;
-
-            
-
-            // Return the response as JSON
             try
             {
-                // Perform any necessary validation on the input data here
-
-                // Assuming 'loginService.LogInUser' returns a boolean indicating success
                 if (loginService.LogInUser(username, password))
                 {
                     Item currentUser = loginService.GetCurrentUserItem();
@@ -43,14 +35,11 @@ namespace TourneyHub.Feature.Login.Controllers
                 }
                 else
                 {
-                    // Authentication failed
                     return Json(new { success = false, message = "Invalid username or password" });
                 }
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging and error handling
-                // Handle any other exceptions as needed
                 return Json(new { success = false, message = "An error occurred while processing your request." });
             }
         }
